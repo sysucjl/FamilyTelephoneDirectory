@@ -23,6 +23,7 @@ import com.example.sysucjl.familytelephonedirectory.R;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordSegment;
 import com.example.sysucjl.familytelephonedirectory.tools.ColorUtils;
+import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 import com.example.sysucjl.familytelephonedirectory.tools.Tools;
 
 import java.text.SimpleDateFormat;
@@ -105,11 +106,18 @@ public class RecordExpandAdapter implements ExpandableListAdapter{
             recordGroupHolder.tvAvatarName = (TextView) convertView.findViewById(R.id.tv_avatar_name);
             recordGroupHolder.ivAvatarSim = (ImageView) convertView.findViewById(R.id.img_avatar_sim);
             recordGroupHolder.tvPhoneNum = (TextView) convertView.findViewById(R.id.tv_phonenum);
+            recordGroupHolder.tvAddress = (TextView) convertView.findViewById(R.id.tv_record_address);
             convertView.setTag(recordGroupHolder);
         }else{
             recordGroupHolder = (RecordGroupHolder) convertView.getTag();
         }
         final RecordItem recordItem = mRecordItems.get(groupPosition);
+        //address
+        DBManager dbHelper;
+        dbHelper=new DBManager(mContext);
+        dbHelper.createDataBase();
+        recordGroupHolder.tvAddress.setText(dbHelper.getResult(recordItem.getNumber()));
+
 
         if(isExpanded) {
             recordGroupHolder.llBackground.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -284,7 +292,7 @@ public class RecordExpandAdapter implements ExpandableListAdapter{
     class RecordGroupHolder{
         public View vRecordDivide;
         public ImageView ivRecordIcon, ivAvatarSim;
-        public TextView tvRecordName, tvCallBack, tvDelete, tvPhoneNum;
+        public TextView tvRecordName, tvCallBack, tvDelete, tvPhoneNum,tvAddress;
         public TextView tvRecordDate, tvAvatarName;
         public LinearLayout llBackground;
         public LinearLayout llRecordType;
