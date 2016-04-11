@@ -49,7 +49,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                     WeatherInfo response = (WeatherInfo) msg.obj;
                     // 在这里进行UI操作，将结果显示到界面上
                     //  textView.setText(response);
-                    String s = response.cityName + "  " + response.weather + "   " + response.tem;
+                    String s = response.cityName + "  " + response.date + "   " + response.curTem + "   " + response.weather;
                     weather.setText(s);
             }
         }

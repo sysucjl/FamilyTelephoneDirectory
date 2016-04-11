@@ -39,8 +39,10 @@ public class QueryWeather {
         line = reader.readLine(); weatherInfo.cityName = getLineValue(line);  // 第3行，省份城市
         line = reader.readLine(); // 第4行，没用
         line = reader.readLine(); weatherInfo.cityCode = getLineValue(line);  // 第5行，城市代码
-        line = reader.readLine(); weatherInfo.date = getLineValue(line);  // 第6行，日期
+        line = reader.readLine();
+        // weatherInfo.date = getLineValue(line);  // 第6行，日期
         line = reader.readLine(); weatherInfo.liveWeather = getLineValue(line);  // 第7行，天气实况
+        weatherInfo.curTem = line.substring(line.indexOf("气温："), line.indexOf("；")); // 提取当前气温
         line = reader.readLine(); // 第8行，没用
         line = reader.readLine(); weatherInfo.UVI = getLineValue(line);  // 第9行，紫外线指数
         line = reader.readLine(); weatherInfo.CI = line;  // 第10行，感冒指数
@@ -49,7 +51,13 @@ public class QueryWeather {
         line = reader.readLine(); weatherInfo.MI = line;  // 第13行，运动指数
         line = reader.readLine(); weatherInfo.API = line;  // 第14行，空气污染指数
         line = reader.readLine(); // 第15行，没用
-        line = reader.readLine(); weatherInfo.weather = getLineValue(line);  // 第16行，天气
+        line = reader.readLine();   // 第16行，天气
+        int a = line.indexOf(">");
+        int b = line.indexOf(" ", a);
+        weatherInfo.date = line.substring(a+1, b);// 提取日期信息
+        a = line.indexOf(" ", a);
+        b = line.indexOf("<", a);
+        weatherInfo.weather = line.substring(a+1, b);// 提取天气信息
         line = reader.readLine(); weatherInfo.tem = getLineValue(line);  // 第17行，气温
         line = reader.readLine(); weatherInfo.wind = getLineValue(line);  // 第18行，风向
 
