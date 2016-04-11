@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.sysucjl.familytelephonedirectory.R;
+import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 
 import java.util.List;
 
@@ -47,11 +48,17 @@ public class PhoneListAdapter extends ArrayAdapter<String> {
             phoneListHolder.tvPhoneNum = (TextView) convertView.findViewById(R.id.tv_phone_number);
             phoneListHolder.tvLocation = (TextView) convertView.findViewById(R.id.tv_location);
             phoneListHolder.ivPhone = (ImageView) convertView.findViewById(R.id.iv_phone);
+
             convertView.setTag(phoneListHolder);
         }else{
             phoneListHolder = (PhoneListHolder) convertView.getTag();
         }
         final String item = getItem(position);
+        //address
+        DBManager dbHelper;
+        dbHelper=new DBManager(getContext());
+        dbHelper.createDataBase();
+        phoneListHolder.tvLocation.setText(dbHelper.getResult(item));
 
         if(position == 0){
             phoneListHolder.ivPhone.setVisibility(View.VISIBLE);

@@ -76,10 +76,10 @@
 
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/tv_record_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorTextLight"
-                    android:text="广东广州联通"
                     android:textSize="13sp"
                     android:layout_marginLeft="8dp"/>
                 <TextView

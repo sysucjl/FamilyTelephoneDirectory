@@ -34,7 +34,7 @@
             android:textColor="@color/colorTextLight"
             android:textSize="15sp"
             android:gravity="center_vertical"
-            android:text="广东广州移动"/>
+            />
     </LinearLayout>
 
     <ImageButton
