@@ -24,6 +24,7 @@ import com.example.sysucjl.familytelephonedirectory.adapter.PhoneListAdapter;
 import com.example.sysucjl.familytelephonedirectory.data.CityInfo;
 import com.example.sysucjl.familytelephonedirectory.data.WeatherInfo;
 import com.example.sysucjl.familytelephonedirectory.tools.ColorUtils;
+import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 import com.example.sysucjl.familytelephonedirectory.tools.QueryWeather;
 
 import java.net.HttpURLConnection;
@@ -36,12 +37,13 @@ public class PersonInfoActivity extends AppCompatActivity {
     private Button btnSentMessage;
     private View vStatusBar;
     private PhoneListAdapter mAdapter;
-
+    DBManager dbHelper;
     /*  显示天气部分 */
     private TextView weather;
     private WeatherInfo weatherInfo;
     private CityInfo cityInfo;
     public static final int SHOW_RESPONSE = 0;
+    public static final int NO_CITY = 1;
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -49,8 +51,10 @@ public class PersonInfoActivity extends AppCompatActivity {
                     WeatherInfo response = (WeatherInfo) msg.obj;
                     // 在这里进行UI操作，将结果显示到界面上
                     //  textView.setText(response);
-                    String s = response.cityName + "  " + response.weather + "   " + response.tem;
-                    weather.setText(s);
+                    String s = response.cityName + "  " + response.date + "   " + response.curTem + "   " + response.weather;
+                    weather.setText(s);break;
+                case NO_CITY:
+                    weather.setText("天气");
             }
         }
     };
@@ -72,6 +76,9 @@ public class PersonInfoActivity extends AppCompatActivity {
         mToolbarLayout.setTitle(personName);
         btnSentMessage = (Button) findViewById(R.id.btn_sent_mesage);
         btnSentMessage.setBackgroundColor(color);
+
+        dbHelper=new DBManager(this);
+        dbHelper.createDataBase();
 
         weather = (TextView)findViewById(R.id.weather);
         //判断是否第一次运行程序
@@ -147,19 +154,28 @@ public class PersonInfoActivity extends AppCompatActivity {
                 HttpURLConnection connection = null;
                 try {
                     //String num=editText.getText().toString().trim();
-
-                    String num = "河源";
-                    SharedPreferences pref = getSharedPreferences("city",MODE_PRIVATE);
-                    String code = pref.getString(num, "");
-                    QueryWeather xmlser=new QueryWeather();
-                    weatherInfo = xmlser.query(code);
-                    //Log.i("tag",res);
-                    //Result.setText(res);
-                    Message message = new Message();
-                    message.what = SHOW_RESPONSE;
-                    // 将服务器返回的结果存放到Message中
-                    message.obj = weatherInfo;
-                    handler.sendMessage(message);
+                    String phonenum = mAdapter.getItem(0);
+                    String city = dbHelper.getCityName(phonenum);
+                    if(city.toString().equals("本地号码")  ||  city.toString().equals("未知号码"))
+                    {
+                        Message message = new Message();
+                        message.what = NO_CITY;
+                        handler.sendMessage(message);
+                    }
+                    else {
+                        //String num = "河源";
+                        SharedPreferences pref = getSharedPreferences("city", MODE_PRIVATE);
+                        String code = pref.getString(city, "");
+                        QueryWeather xmlser = new QueryWeather();
+                        weatherInfo = xmlser.query(code);
+                        //Log.i("tag",res);
+                        //Result.setText(res);
+                        Message message = new Message();
+                        message.what = SHOW_RESPONSE;
+                        // 将服务器返回的结果存放到Message中
+                        message.obj = weatherInfo;
+                        handler.sendMessage(message);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

@@ -3,19 +3,18 @@ package com.example.sysucjl.familytelephonedirectory.tools;
 /**
  * Created by Administrator on 2016/4/11.
  */
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabase.CursorFactory;
+import android.database.sqlite.SQLiteException;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 
 
 /**
@@ -252,6 +251,77 @@ public class DBManager extends SQLiteOpenHelper {
         }
         return result;
     }
+
+
+
+    public String getCityName(String num){
+        DBManager dbHelper2=new DBManager(myContext,"callhome.db",null,1);
+        SQLiteDatabase db=dbHelper2.getReadableDatabase();
+        String number=num;
+        String result=null;
+        if (number.length() > 7) {
+            String firstNum = number.substring(0, 1);
+            if (number.length() >= 10) {
+                if ("0".equals(firstNum)) {
+                    String s1 = number.substring(1);
+                    String s2 = s1;
+                    String second = s1.substring(0, 1);
+                    if (second.equals("1") || second.equals("2")) {
+                        s2 = s1.substring(0, 2);
+                    } else {
+                        s2 = s1.substring(0, 3);
+                    }
+                    String sql = "select location from tel_location where _id = ? ";
+                    String[] param = new String[] { s2 };
+                    if (db != null && db.isOpen()) {
+                        Cursor cursor = db.rawQuery(sql, param);
+                        if (cursor.moveToNext()) {
+                            //result = cursor.getString(0)+"固话";
+                            result = cursor.getString(0).substring(2);
+                        }
+                        cursor.close();
+                    }
+                } else {
+                    if (number.indexOf("+86") == 0) {
+                        number = number.substring(3);
+                    }
+                    if (number.indexOf("86") == 0) {
+                        number = number.substring(2);
+                    }
+                    String s1 = number.substring(0, 7);
+                    String sql = "select location from mob_location where _id = ? ";
+                    String[] param = new String[] { s1 };
+                    if (db != null && db.isOpen()) {
+                        Cursor cursor = db.rawQuery(sql, param);
+                        if (cursor.moveToNext()) {
+                            int middleIndex=0;
+                            String temp = cursor.getString(0);
+                            for(int i=0;i<temp.length();i++){
+                                if(temp.charAt(i)==' '){
+                                    middleIndex=i;
+                                    break;
+                                }
+                            }
+                           // result=temp.substring(0,middleIndex)+temp.substring(middleIndex+1);
+                            result=temp.substring(2,middleIndex);
+                            //result=temp;
+                        }
+                        cursor.close();
+                    }
+                }
+            } else {
+                result = "本地号码";
+            }
+        } else {
+            if (number.length() < 4) {
+                result = "未知号码";
+            } else {
+                result = "本地号码";
+            }
+        }
+        return result;
+    }
+
 
     @Override
     public synchronized void close() {
