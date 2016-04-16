@@ -74,7 +74,7 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
     public SweetAlertDialog(Context context, int alertType) {
         super(context, R.style.alert_dialog);
         setCancelable(true);
-        setCanceledOnTouchOutside(false);
+        setCanceledOnTouchOutside(true);
         mProgressHelper = new ProgressHelper(context);
         mAlertType = alertType;
         mErrorInAnim = OptAnimationLoader.loadAnimation(getContext(), R.anim.error_frame_in);

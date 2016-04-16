@@ -160,8 +160,8 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
                     //SweetAlertDialog是导入的第三方dialog
                     new SweetAlertDialog(mContext, SweetAlertDialog.WARNING_TYPE)
-                            .setTitleText("Are you sure?")
-                            .setContentText("Won't be able to recover this record!")
+                            .setTitleText("要删除吗?")
+                            .setContentText("系统将删除该组通话记录。")
                             .setCancelText("取消")
                             .setConfirmText("删除")
                             .showCancelButton(true)
@@ -176,9 +176,9 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                                     mRecordItems.remove(groupPosition);
                                     mAdapterListener.MynotifyDataSetChanged(groupPosition);
 
-                                    sDialog.setTitleText("Deleted!")
-                                            .setContentText("Your record has been deleted!")
-                                            .setConfirmText("OK")
+                                    sDialog.setTitleText("已删除!")
+                                            .setContentText("该组通话记录已被删除!")
+                                            .setConfirmText("确认")
                                             .showCancelButton(false)
                                             .setCancelClickListener(null)
                                             .setConfirmClickListener(null)
