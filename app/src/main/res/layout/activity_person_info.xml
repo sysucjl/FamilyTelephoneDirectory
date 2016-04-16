@@ -94,12 +94,13 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_weight="5"
                             android:orientation="horizontal">
 
                             <ImageView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
+                                android:layout_weight="2"
                                 android:id="@+id/weather1"
                                 android:adjustViewBounds="true"
                                 android:maxHeight="60dp"
@@ -109,8 +110,17 @@
                             <ImageView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/weather2"
+                                android:id="@+id/arrow"
                                 android:layout_weight="1"
+                                android:adjustViewBounds="true"
+                                android:maxHeight="60dp"
+                                android:src="@drawable/arrow" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/weather2"
+                                android:layout_weight="2"
                                 android:adjustViewBounds="true"
                                 android:maxHeight="60dp"
                                 android:scaleType="fitStart"
@@ -123,7 +133,8 @@
                             android:text="天气"
                             android:id="@+id/weather"
                             android:autoText="false"
-                            android:gravity="center" />
+                            android:gravity="center"
+                            android:textSize="20dp"/>
                     </android.support.v7.widget.CardView>
 
                     <android.support.v7.widget.CardView
