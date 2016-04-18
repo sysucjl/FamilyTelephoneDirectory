@@ -29,4 +29,6 @@ dependencies {
     compile 'com.android.support:palette-v7:23.1.1'
     compile project(':sweet-alert-dialog:library')
     compile 'com.github.obiteaaron:pinyin4j-multi:1.0.0'
+    compile 'org.apache.httpcomponents:httpcore:4.4.4'
+    compile files('D:/AndroidApp/FamilyTelephoneDirectory/FamilyTelephoneDirectory/.idea/libraries/android-vcard.jar')
 }
