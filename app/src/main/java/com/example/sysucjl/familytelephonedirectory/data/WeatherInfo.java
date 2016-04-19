@@ -18,4 +18,6 @@ public class WeatherInfo {
     public String weather; //当天天气
     public String tem;
     public String wind;
+    public String gif1;
+    public String gif2;
 }

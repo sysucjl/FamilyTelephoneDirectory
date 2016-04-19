@@ -54,13 +54,16 @@ public class QueryWeather {
         line = reader.readLine();   // 第16行，天气
         int a = line.indexOf(">");
         int b = line.indexOf(" ", a);
-        weatherInfo.date = line.substring(a+1, b);// 提取日期信息
+        weatherInfo.date = line.substring(a + 1, b);// 提取日期信息
         a = line.indexOf(" ", a);
         b = line.indexOf("<", a);
-        weatherInfo.weather = line.substring(a+1, b);// 提取天气信息
+        weatherInfo.weather = line.substring(a + 1, b);// 提取天气信息
         line = reader.readLine(); weatherInfo.tem = getLineValue(line);  // 第17行，气温
         line = reader.readLine(); weatherInfo.wind = getLineValue(line);  // 第18行，风向
-
+        line = reader.readLine();
+        weatherInfo.gif1 = getLineValue(line).substring(0, getLineValue(line).indexOf(".")).trim(); // 第一个天气图片
+        line = reader.readLine();
+        weatherInfo.gif2 = getLineValue(line).substring(0, getLineValue(line).indexOf(".")).trim();;   //第二个天气图片
         return  weatherInfo;
     }
 

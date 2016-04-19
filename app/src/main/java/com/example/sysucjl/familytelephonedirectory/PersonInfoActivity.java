@@ -2,6 +2,7 @@ package com.example.sysucjl.familytelephonedirectory;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -40,6 +41,8 @@ public class PersonInfoActivity extends AppCompatActivity {
     DBManager dbHelper;
     /*  显示天气部分 */
     private TextView weather;
+    private ImageView weather1;
+    private ImageView weather2;
     private WeatherInfo weatherInfo;
     private CityInfo cityInfo;
     public static final int SHOW_RESPONSE = 0;
@@ -52,7 +55,14 @@ public class PersonInfoActivity extends AppCompatActivity {
                     // 在这里进行UI操作，将结果显示到界面上
                     //  textView.setText(response);
                     String s = response.cityName + "  " + response.date + "   " + response.curTem + "   " + response.weather;
-                    weather.setText(s);break;
+                    weather.setText(s);
+                    Resources res = getResources();
+                    int imageid = res.getIdentifier("c"+response.gif1, "drawable", getPackageName());
+                    weather1.setImageResource(imageid);
+                    imageid = res.getIdentifier("c"+response.gif2, "drawable", getPackageName());
+                    weather2.setImageResource(imageid);
+                    //weather2.setImageResource(R.drawable.a_3101);
+                    break;
                 case NO_CITY:
                     weather.setText("天气");
             }
@@ -80,6 +90,8 @@ public class PersonInfoActivity extends AppCompatActivity {
         dbHelper=new DBManager(this);
         dbHelper.createDataBase();
 
+        weather1 = (ImageView)findViewById(R.id.weather1);
+        weather2 = (ImageView)findViewById(R.id.weather2);
         weather = (TextView)findViewById(R.id.weather);
         weather.setText("正在查询天气...");
         //判断是否第一次运行程序
