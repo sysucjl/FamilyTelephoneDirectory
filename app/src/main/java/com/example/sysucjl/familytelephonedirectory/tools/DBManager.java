@@ -98,6 +98,7 @@ public class DBManager extends SQLiteOpenHelper {
     public synchronized static DBManager getInstance(Context context){
         if(mInstance==null){
             mInstance=new DBManager(context);
+            mInstance.createDataBase();
         }
         return mInstance;
     }
