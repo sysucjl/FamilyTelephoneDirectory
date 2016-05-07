@@ -36,12 +36,12 @@ public class QueryWeather {
 
         line = reader.readLine(); // 第1行，没用
         line = reader.readLine(); // 第2行，没用
-        line = reader.readLine(); weatherInfo.cityName = getLineValue(line);  // 第3行，省份城市
+        line = reader.readLine(); weatherInfo.cityName = getLineValue(line).replace(" ", "");  // 第3行，省份城市
         line = reader.readLine(); // 第4行，没用
         line = reader.readLine(); weatherInfo.cityCode = getLineValue(line);  // 第5行，城市代码
         line = reader.readLine();
         // weatherInfo.date = getLineValue(line);  // 第6行，日期
-        line = reader.readLine(); weatherInfo.liveWeather = getLineValue(line);  // 第7行，天气实况
+        line = reader.readLine(); weatherInfo.liveWeather = getLineValue(line).substring(7);  // 第7行，天气实况
         weatherInfo.curTem = line.substring(line.indexOf("气温："), line.indexOf("；")); // 提取当前气温
         line = reader.readLine(); // 第8行，没用
         line = reader.readLine(); weatherInfo.UVI = getLineValue(line);  // 第9行，紫外线指数
