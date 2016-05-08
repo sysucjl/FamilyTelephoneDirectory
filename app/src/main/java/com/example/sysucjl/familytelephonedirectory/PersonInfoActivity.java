@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,6 +27,7 @@ import com.example.sysucjl.familytelephonedirectory.adapter.PhoneListAdapter;
 import com.example.sysucjl.familytelephonedirectory.data.CityInfo;
 import com.example.sysucjl.familytelephonedirectory.data.WeatherInfo;
 import com.example.sysucjl.familytelephonedirectory.tools.BlackListOptionManager;
+import com.example.sysucjl.familytelephonedirectory.tools.CareSMS;
 import com.example.sysucjl.familytelephonedirectory.tools.ColorUtils;
 import com.example.sysucjl.familytelephonedirectory.tools.ContactOptionManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
@@ -51,8 +53,10 @@ public class PersonInfoActivity extends AppCompatActivity {
     private TextView weather;
     private ImageView weather1;
     private ImageView weather2;
+    private ImageView arrow;
     private WeatherInfo weatherInfo;
     private CityInfo cityInfo;
+    private boolean isWeatherDone = false;
     public static final int SHOW_RESPONSE = 0;
     public static final int NO_CITY = 1;
     private Handler handler = new Handler() {
@@ -69,13 +73,16 @@ public class PersonInfoActivity extends AppCompatActivity {
                     weather1.setImageResource(imageid);
                     imageid = res.getIdentifier("c"+response.gif2, "drawable", getPackageName());
                     weather2.setImageResource(imageid);
+                    arrow.setImageResource(R.drawable.arrow);
                     //weather2.setImageResource(R.drawable.a_3101);
+                    isWeatherDone = true;
                     break;
                 case NO_CITY:
                     weather.setText("天气");
             }
         }
     };
+    Button sentMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +116,7 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         weather1 = (ImageView)findViewById(R.id.weather1);
         weather2 = (ImageView)findViewById(R.id.weather2);
+        arrow = (ImageView)findViewById(R.id.arrow);
         weather = (TextView)findViewById(R.id.weather);
         weather.setText("正在查询天气...");
         //判断是否第一次运行程序
@@ -120,6 +128,18 @@ public class PersonInfoActivity extends AppCompatActivity {
             cityInfo = new CityInfo();
             cityInfo.create(editor);
         }
+
+        //发送关怀短信
+        sentMessage = (Button)findViewById(R.id.btn_sent_mesage);
+        sentMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isWeatherDone)
+                    sentCareSMS(weatherInfo);
+                else
+                    Toast.makeText(PersonInfoActivity.this, "天气未加载完毕，请稍后", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         BitmapDrawable bd = (BitmapDrawable) ivBackDrop.getDrawable();
         Palette.from(bd.getBitmap()).generate(new Palette.PaletteAsyncListener() {
@@ -265,6 +285,17 @@ public class PersonInfoActivity extends AppCompatActivity {
             setListViewHeightBasedOnChildren(phoneList);
         }
         sendRequestWithHttpURLConnection();
+    }
+
+    private void sentCareSMS(WeatherInfo weatherInfo1){
+        String phonenum = mAdapter.getItem(0);
+        CareSMS careSMS = new CareSMS();
+        String messageContent;
+        messageContent = careSMS.getCareSMS(weatherInfo1);
+        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+        sendIntent.setData(Uri.parse("smsto:" + phonenum));
+        sendIntent.putExtra("sms_body", messageContent);
+        startActivity(sendIntent);
     }
 
     //解决ListView在ScrollView中无法显示多列的情况
