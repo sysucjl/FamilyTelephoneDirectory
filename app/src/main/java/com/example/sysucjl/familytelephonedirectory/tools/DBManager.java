@@ -91,7 +91,7 @@ public class DBManager extends SQLiteOpenHelper {
         boolean dbExist = checkDataBase();
         if (dbExist) {
             //数据库已存在，do nothing.
-            System.out.println("数据库已经存在");
+            //System.out.println("数据库已经存在");
         } else {
             //创建数据库
             try {
@@ -124,7 +124,7 @@ public class DBManager extends SQLiteOpenHelper {
         }
         if (checkDB != null) {
             checkDB.close();
-            System.out.println("关闭");
+            //System.out.println("关闭");
         }
         return checkDB != null ? true : false;
     }
@@ -187,69 +187,74 @@ public class DBManager extends SQLiteOpenHelper {
 //        return dbHelper;
 //    }
     public String getResult(String num){
-        DBManager dbHelper2=new DBManager(myContext,"callhome.db",null,1);
-        SQLiteDatabase db=dbHelper2.getReadableDatabase();
-        String number=num;
-        String result=null;
-        if (number.length() > 7) {
-            String firstNum = number.substring(0, 1);
-            if (number.length() >= 10) {
-                if ("0".equals(firstNum)) {
-                    String s1 = number.substring(1);
-                    String s2 = s1;
-                    String second = s1.substring(0, 1);
-                    if (second.equals("1") || second.equals("2")) {
-                        s2 = s1.substring(0, 2);
-                    } else {
-                        s2 = s1.substring(0, 3);
-                    }
-                    String sql = "select location from tel_location where _id = ? ";
-                    String[] param = new String[] { s2 };
-                    if (db != null && db.isOpen()) {
-                        Cursor cursor = db.rawQuery(sql, param);
-                        if (cursor.moveToNext()) {
-                            result = cursor.getString(0)+"固话";
+        try {
+            DBManager dbHelper2 = new DBManager(myContext, "callhome.db", null, 1);
+            SQLiteDatabase db = dbHelper2.getReadableDatabase();
+            String number = num;
+            String result = null;
+            if (number.length() > 7) {
+                String firstNum = number.substring(0, 1);
+                if (number.length() >= 10) {
+                    if ("0".equals(firstNum)) {
+                        String s1 = number.substring(1);
+                        String s2 = s1;
+                        String second = s1.substring(0, 1);
+                        if (second.equals("1") || second.equals("2")) {
+                            s2 = s1.substring(0, 2);
+                        } else {
+                            s2 = s1.substring(0, 3);
                         }
-                        cursor.close();
+                        String sql = "select location from tel_location where _id = ? ";
+                        String[] param = new String[]{s2};
+                        if (db != null && db.isOpen()) {
+                            Cursor cursor = db.rawQuery(sql, param);
+                            if (cursor.moveToNext()) {
+                                result = cursor.getString(0) + "固话";
+                            }
+                            cursor.close();
+                        }
+                    } else {
+                        if (number.indexOf("+86") == 0) {
+                            number = number.substring(3);
+                        }
+                        if (number.indexOf("86") == 0) {
+                            number = number.substring(2);
+                        }
+                        String s1 = number.substring(0, 7);
+                        String sql = "select location from mob_location where _id = ? ";
+                        String[] param = new String[]{s1};
+                        if (db != null && db.isOpen()) {
+                            Cursor cursor = db.rawQuery(sql, param);
+                            if (cursor.moveToNext()) {
+                                int middleIndex = 0;
+                                String temp = cursor.getString(0);
+                                for (int i = 0; i < temp.length(); i++) {
+                                    if (temp.charAt(i) == ' ') {
+                                        middleIndex = i;
+                                        break;
+                                    }
+                                }
+                                result = temp.substring(0, middleIndex) + temp.substring(middleIndex + 1);
+                                //result=temp;
+                            }
+                            cursor.close();
+                        }
                     }
                 } else {
-                    if (number.indexOf("+86") == 0) {
-                        number = number.substring(3);
-                    }
-                    if (number.indexOf("86") == 0) {
-                        number = number.substring(2);
-                    }
-                    String s1 = number.substring(0, 7);
-                    String sql = "select location from mob_location where _id = ? ";
-                    String[] param = new String[] { s1 };
-                    if (db != null && db.isOpen()) {
-                        Cursor cursor = db.rawQuery(sql, param);
-                        if (cursor.moveToNext()) {
-                            int middleIndex=0;
-                            String temp = cursor.getString(0);
-                            for(int i=0;i<temp.length();i++){
-                                if(temp.charAt(i)==' '){
-                                    middleIndex=i;
-                                    break;
-                                }
-                            }
-                            result=temp.substring(0,middleIndex)+temp.substring(middleIndex+1);
-                            //result=temp;
-                        }
-                        cursor.close();
-                    }
+                    result = "本地号码";
                 }
             } else {
-                result = "本地号码";
+                if (number.length() < 4) {
+                    result = "未知号码";
+                } else {
+                    result = "本地号码";
+                }
             }
-        } else {
-            if (number.length() < 4) {
-                result = "未知号码";
-            } else {
-                result = "本地号码";
-            }
+            return result;
+        }catch (Exception e){
+
         }
-        return result;
+        return  "未知";
     }
 
 

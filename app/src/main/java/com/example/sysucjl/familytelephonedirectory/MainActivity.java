@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity{
 
     private RelativeLayout rlFloatBtn;
     private int mSrollWidth;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +41,17 @@ public class MainActivity extends AppCompatActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                if(viewPager.getCurrentItem() == 0) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else if(viewPager.getCurrentItem() == 1){
+                    Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("tag", "add");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -51,7 +60,7 @@ public class MainActivity extends AppCompatActivity{
         ScreenTools s = ScreenTools.instance(getApplicationContext());
         mSrollWidth = s.getScreenWidth()/2 - s.dip2px(56)/2 - s.dip2px(16);
         //mSrollWidth = s.getScreenWidth()/2
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        viewPager = (ViewPager) findViewById(R.id.main_viewpager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);

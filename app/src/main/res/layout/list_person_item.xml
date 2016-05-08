@@ -16,31 +16,11 @@
         android:gravity="center"
         android:textColor="@color/colorTextLight"/>
 
-    <RelativeLayout
+    <com.example.sysucjl.familytelephonedirectory.view.AvatarViewGroup
+        android:id="@+id/avatar_group"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginRight="20dp">
-        <ImageView
-            android:id="@+id/iv_person_icon"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/ic_round_img"
-            android:tint="@color/colorPrimary"
-            />
-        <ImageView
-            android:id="@+id/img_avatar_sim"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_avatar_sim"/>
-        <TextView
-            android:id="@+id/tv_avatar_name"
-            android:layout_width="fill_parent"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_height="fill_parent" />
-    </RelativeLayout>
+        android:layout_marginRight="20dp"/>
 
     <TextView
         android:id="@+id/tv_person_name"

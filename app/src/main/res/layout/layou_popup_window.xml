@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    >
+    <TextView
+        android:id="@+id/tv_delete_pic"
+        android:clickable="true"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="删除头像"
+        android:gravity="center"
+        android:background="@drawable/selector_clear_button"/>
+    <TextView
+        android:id="@+id/tv_take_photo"
+        android:clickable="true"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="拍照"
+        android:gravity="center"
+        android:background="@drawable/selector_clear_button"/>
+    <TextView
+        android:id="@+id/tv_gallery"
+        android:clickable="true"
+        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="从相册选择"
+        android:gravity="center"
+        android:background="@drawable/selector_clear_button"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@drawable/shape_shadow"/>
+</LinearLayout>

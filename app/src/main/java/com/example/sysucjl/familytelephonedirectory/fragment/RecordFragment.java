@@ -69,8 +69,6 @@ public class RecordFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // TODO: Change Adapter to display your content
-        //mAdapter = new RecordViewAdapter(tool.getCallLog(getContext()), getContext());
     }
 
     @Override

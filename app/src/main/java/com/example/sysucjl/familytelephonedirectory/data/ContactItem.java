@@ -1,7 +1,12 @@
 package com.example.sysucjl.familytelephonedirectory.data;
 
+import android.graphics.Color;
+
+import com.example.sysucjl.familytelephonedirectory.tools.ColorUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sysucjl on 16-3-23.
@@ -14,10 +19,38 @@ public class ContactItem {
     private String mContactId;
     private String mAvatar;
     private int mPhoneCount;
-    private ArrayList<String> mPhoneList;
+    int mColor;
+
+    private Map<String, Integer> mPhones;
+    private Map<String, Integer> mEmails;
 
     public ContactItem(String name){
         mDisplayName = name;
+        mColor = Color.parseColor(ColorUtils.getColor(name.hashCode()));
+    }
+
+    public int getmColor() {
+        return mColor;
+    }
+
+    public void setmColor(int mColor) {
+        this.mColor = mColor;
+    }
+
+    public Map<String, Integer> getmEmails() {
+        return mEmails;
+    }
+
+    public void setmEmails(Map<String, Integer> mEmails) {
+        this.mEmails = mEmails;
+    }
+
+    public Map<String, Integer> getmPhones() {
+        return mPhones;
+    }
+
+    public void setmPhones(Map<String, Integer> mPhones) {
+        this.mPhones = mPhones;
     }
 
     public void setmContactId(String id){
@@ -28,11 +61,12 @@ public class ContactItem {
         mPhoneCount = count;
     }
 
-    public void setPhoneNumber(List<String> list){
-        mPhoneList = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-            mPhoneList.add(list.get(i));
-        }
+    public String getmAvatar() {
+        return mAvatar;
+    }
+
+    public void setmAvatar(String mAvatar) {
+        this.mAvatar = mAvatar;
     }
 
     public String getName(){
@@ -45,10 +79,6 @@ public class ContactItem {
 
     public int getmPhoneCount(){
         return mPhoneCount;
-    }
-
-    public ArrayList<String> getmPhoneList(){
-        return mPhoneList;
     }
 
     public String getmPinYin() {

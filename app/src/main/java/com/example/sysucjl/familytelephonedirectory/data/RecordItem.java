@@ -12,19 +12,27 @@ public class RecordItem {
     long CallTime;// 打电话时间
     long Duration;//通话时长
     String Number = null;// 电话号码
-    String Name = null;// 姓名
     List<RecordSegment> recordSegments;
+    ContactItem mContactItem = null;
 
-    public RecordItem(int id,int type, long CallTime, long Duration, String Number, String Name){
+    public RecordItem(int id,int type, long CallTime, long Duration, String Number){
         this.id = id;
         this.type = type;
         this.CallTime = CallTime;
         this.Duration = Duration;
         this.Number = Number;
-        this.Name = Name;
         this.recordSegments = new ArrayList<>();
         recordSegments.add(new RecordSegment(id,type, CallTime, Duration));
     }
+
+    public ContactItem getmContactItem() {
+        return mContactItem;
+    }
+
+    public void setmContactItem(ContactItem mContactItem) {
+        this.mContactItem = mContactItem;
+    }
+
     public int getId(){
         return id;
     }
@@ -43,10 +51,6 @@ public class RecordItem {
 
     public String getNumber(){
         return Number;
-    }
-
-    public String getName(){
-        return Name;
     }
 
     public List<RecordSegment> getRecordSegments() {

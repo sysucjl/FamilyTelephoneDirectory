@@ -1,52 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".PersonInfoActivity">
 
-
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.design.widget.AppBarLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        tools:context="com.hochan.familytelephonedirectory.PersonInfoActivity">
-
-        <android.support.design.widget.AppBarLayout
-            android:layout_height="300dp"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/appl_appbarlayout"
+        android:fitsSystemWindows="true">
+        <com.example.sysucjl.familytelephonedirectory.view.MyCollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:theme="@style/AppTheme.AppBarOverlay"
+            android:layout_height="wrap_content"
+            app:title="联系人详情"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@android:color/white"
+            app:expandedTitleMargin="20dp"
             android:fitsSystemWindows="true">
 
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:title="联系人详情"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:contentScrim="@android:color/white"
-                app:expandedTitleMargin="20dp"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax"
                 android:fitsSystemWindows="true">
-
                 <ImageView
                     android:id="@+id/iv_backdrop"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/avatar_test"
+                    android:minHeight="250dp"
+                    android:src="@drawable/ic_avatar_sim_large"
                     app:layout_collapseMode="parallax"
                     android:fitsSystemWindows="true"
                     />
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                <ImageView
+                    android:id="@+id/iv_blur_image"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:layout_collapseMode="pin" />
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:minHeight="250dp"
+                    app:layout_collapseMode="parallax"
+                    android:fitsSystemWindows="true"
+                    />
+            </FrameLayout>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:layout_collapseMode="pin" />
+        </com.example.sysucjl.familytelephonedirectory.view.MyCollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nsw_scroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -67,7 +81,20 @@
                         android:orientation="vertical">
 
                         <ListView
-                            android:id="@+id/phone_list"
+                            android:id="@+id/lv_phone_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:divider="@color/colorDivide"
+                            android:dividerHeight="1px">
+                        </ListView>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorDivide"/>
+
+                        <ListView
+                            android:id="@+id/lv_email_list"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:divider="@color/colorDivide"
