@@ -17,12 +17,16 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +36,7 @@ import com.example.sysucjl.familytelephonedirectory.adapter.ContactInfoAdapter;
 import com.example.sysucjl.familytelephonedirectory.adapter.PhoneListAdapter;
 import com.example.sysucjl.familytelephonedirectory.data.CityInfo;
 import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
+import com.example.sysucjl.familytelephonedirectory.data.SerializableMap;
 import com.example.sysucjl.familytelephonedirectory.data.WeatherInfo;
 import com.example.sysucjl.familytelephonedirectory.tools.BlackListOptionManager;
 import com.example.sysucjl.familytelephonedirectory.tools.CareSMS;
@@ -71,6 +76,7 @@ public class PersonInfoActivity extends AppCompatActivity {
 
     private int mColor;
     private ImageView ivBlurImage;
+    private CardView cvContactInfo;
 
     private int mScreenWidth;
 
@@ -95,10 +101,12 @@ public class PersonInfoActivity extends AppCompatActivity {
     private ImageView weather2;
     private ImageView arrow;
     private WeatherInfo weatherInfo;
+    private LinearLayout llwedther;
     private CityInfo cityInfo;
     private boolean isWeatherDone = false;
     public static final int SHOW_RESPONSE = 0;
     public static final int NO_CITY = 1;
+
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -129,8 +137,6 @@ public class PersonInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_info);
 
-
-
         //获取传递的数据
         final Intent intent = getIntent();
         String personName = intent.getStringExtra(CONTACT_NAME);
@@ -144,6 +150,9 @@ public class PersonInfoActivity extends AppCompatActivity {
         //定义控件
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+        cvContactInfo = (CardView) findViewById(R.id.cv_contact_info);
+
         ivBackDrop = (ImageView) findViewById(R.id.iv_backdrop);
         ivBackDrop.setBackgroundColor(color);
         ivBlurImage = (ImageView) findViewById(R.id.iv_blur_image);
@@ -155,6 +164,7 @@ public class PersonInfoActivity extends AppCompatActivity {
         btnSentMessage.setBackgroundColor(color);
         btnBlacklist = (Button)findViewById(R.id.btn_blacklist);
         btnBlacklist.setBackgroundColor(color);
+        llwedther = (LinearLayout) findViewById(R.id.ll_wedther);
 
         mScreenWidth = ScreenTools.getScreenWidth(this);
 
@@ -163,6 +173,7 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         applAppBarLayout = (AppBarLayout) findViewById(R.id.appl_appbarlayout);
         applAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 System.out.print(verticalOffset + " ");
@@ -212,17 +223,6 @@ public class PersonInfoActivity extends AppCompatActivity {
         });
 
         if(intent.getStringExtra("tab_name").equals("contact")) {
-            //final ArrayList<String> phones = intent.getStringArrayListExtra("phonelist");
-            //mAdapter = new PhoneListAdapter(this, R.layout.list_phone_item, phones, color);
-            //final ListView phoneList = (ListView) findViewById(R.id.phone_list);
-
-            //phoneList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //    @Override
-            //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            //        mAdapter.getView(position, view, phoneList);
-            //    }
-            //});
-
             getContactInfo();
         }
     }
@@ -244,6 +244,9 @@ public class PersonInfoActivity extends AppCompatActivity {
                     setListViewHeightBasedOnChildren(lvPhonesList);
                     sendRequestWithHttpURLConnection();
                     handleBackList();
+                }else{
+                    llwedther.setVisibility(View.GONE);
+                    lvPhonesList.setVisibility(View.GONE);
                 }
                 mEmails = contactItem.getmEmails();
                 if(mEmails != null){
@@ -256,9 +259,11 @@ public class PersonInfoActivity extends AppCompatActivity {
                             mEmailList, mEmails, mColor, ContactInfoAdapter.TYPE_EMAIL);
                     lvEmailList.setAdapter(mEmailsListAdapter);
                     setListViewHeightBasedOnChildren(lvEmailList);
+                }else {
+                    lvEmailList.setVisibility(View.GONE);
                 }
                 if(mPhones == null && mEmails == null){
-
+                    cvContactInfo.setVisibility(View.GONE);
                 }
             }
         };
@@ -523,5 +528,36 @@ public class PersonInfoActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_edit:
+                Intent intent = new Intent(this, EditActivity.class);
+                intent.putExtra(EditActivity.TAG, EditActivity.TAG_EDIT);
+                intent.putExtra(EditActivity.PHOTO_URI, mContactAvatar);
+                intent.putExtra(EditActivity.CONTACT_NAME, mContactName);
+                intent.putExtra(EditActivity.CONTACT_ID, mContactId);
+                if(mPhones != null){
+                    SerializableMap serializableMap = new SerializableMap();
+                    serializableMap.setMap(mPhones);
+                    intent.putExtra(EditActivity.MAP_PHONES, serializableMap);
+                }
+                if(mEmails != null){
+                    SerializableMap aserializableMap = new SerializableMap();
+                    aserializableMap.setMap(mEmails);
+                    intent.putExtra(EditActivity.MAP_EMAILS, aserializableMap);
+                }
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }
