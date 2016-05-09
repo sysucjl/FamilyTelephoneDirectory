@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_edit"
+    tools:context="com.example.sysucjl.familytelephonedirectory.EditActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="match_parent"
+            android:minHeight="230dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_avatar_sim_large"
+            android:background="@drawable/selector_add_button"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:layout_marginTop="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="姓名"
+                    style="@style/EditItemTextStyle" />
+
+                <EditText
+                    android:id="@+id/ed_name"
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="17sp"
+                    android:layout_gravity="center"/>
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="15dp"
+                    android:visibility="gone">
+                    <Spinner
+                        android:id="@+id/sp_avatar"
+                        android:layout_gravity="bottom|center"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:dropDownWidth="200dp"
+                        android:background="@null"
+                        android:dropDownHorizontalOffset="-16dp"
+                        android:dropDownVerticalOffset="100dp"></Spinner>
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_avatar_sim"
+                        android:scaleType="centerInside"
+                        android:padding="5dp"
+                        android:clickable="false"
+                        android:background="#FFE7E6E6"
+                        />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="电话"
+                    style="@style/EditItemTextStyle" />
+
+                <include
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    layout="@layout/layout_edit_phone"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_extra_phones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_add_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="添加新条目"
+                android:clickable="true"
+                android:gravity="center"
+                android:textColor="@color/colorTextLight"
+                android:background="@drawable/selector_add_button"
+                android:layout_marginLeft="0dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:text="邮箱"
+                    style="@style/EditItemTextStyle"/>
+
+                <include
+                    android:layout_marginLeft="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    layout="@layout/layout_edit_email"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_extra_emails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_add_email"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="添加新条目"
+                android:gravity="center"
+                android:textColor="@color/colorTextLight"
+                android:background="@drawable/selector_add_button"
+                android:layout_marginLeft="0dp"
+                android:clickable="true"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_save"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="保存"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:background="@drawable/selector_edit_button"
+                android:layout_marginTop="15dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_cancle"
+                android:clickable="true"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="取消"
+                android:textColor="@color/colorText"
+                android:background="@drawable/selector_add_button"
+                android:layout_marginTop="15dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

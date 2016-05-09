@@ -5,66 +5,53 @@ import android.content.Context;
 
 public class ScreenTools {
 
-    private static ScreenTools mScreenTools;
-    private Context context;
-
-    private ScreenTools(Context context) {
-        this.context = context.getApplicationContext();
-    }
-
-    public static ScreenTools instance(Context context) {
-        if (mScreenTools == null)
-            mScreenTools = new ScreenTools(context);
-        return mScreenTools;
-    }
-
-    public int dip2px(float f) {
+    public static int dip2px(float f, Context context) {
         return (int) (0.5D + (double) (f * getDensity(context)));
     }
 
-    public int dip2px(int i) {
+    public static int dip2px(int i, Context context) {
         return (int) (0.5D + (double) (getDensity(context) * (float) i));
     }
 
-    public int get480Height(int i) {
-        return (i * getScreenWidth()) / 480;
+    public static int get480Height(int i, Context context) {
+        return (i * getScreenWidth(context)) / 480;
     }
 
-    public float getDensity(Context context) {
+    public static float getDensity(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }
 
-    public int getScal() {
-        return (100 * getScreenWidth()) / 480;
+    public static int getScal(Context context) {
+        return (100 * getScreenWidth(context)) / 480;
     }
 
-    public int getScreenDensityDpi() {
+    public static int getScreenDensityDpi(Context context) {
         return context.getResources().getDisplayMetrics().densityDpi;
     }
 
-    public int getScreenHeight() {
+    public static int getScreenHeight(Context context) {
         return context.getResources().getDisplayMetrics().heightPixels;
     }
 
-    public int getScreenWidth() {
+    public static int getScreenWidth(Context context) {
         return context.getResources().getDisplayMetrics().widthPixels;
     }
 
 
-    public float getXdpi() {
+    public static float getXdpi(Context context) {
         return context.getResources().getDisplayMetrics().xdpi;
     }
 
-    public float getYdpi() {
+    public static float getYdpi(Context context) {
         return context.getResources().getDisplayMetrics().ydpi;
     }
 
-    public int px2dip(float f) {
+    public static int px2dip(float f, Context context) {
         float f1 = getDensity(context);
         return (int) (((double) f - 0.5D) / (double) f1);
     }
 
-    public int px2dip(int i) {
+    public static int px2dip(int i, Context context) {
         float f = getDensity(context);
         return (int) (((double) i - 0.5D) / (double) f);
     }

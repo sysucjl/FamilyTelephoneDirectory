@@ -24,7 +24,7 @@ import com.example.sysucjl.familytelephonedirectory.R;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordSegment;
 import com.example.sysucjl.familytelephonedirectory.tools.BlackListOptionManager;
-import com.example.sysucjl.familytelephonedirectory.tools.ColorUtils;
+import com.example.sysucjl.familytelephonedirectory.utils.ColorUtils;
 import com.example.sysucjl.familytelephonedirectory.tools.ContactOptionManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DateTools;
@@ -58,7 +58,10 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getGroupCount() {
-        return mRecordItems.size();
+        if(mRecordItems != null) {
+            return mRecordItems.size();
+        }
+        return 0;
     }
 
     @Override

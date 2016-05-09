@@ -14,7 +14,9 @@ import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by sysucjl on 16-4-4.
@@ -86,6 +88,7 @@ public class ContactOptionManager {
         String ID = ContactsContract.Contacts._ID;
         String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
         String HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER;
+        String PHOTO_URI = ContactsContract.Contacts.PHOTO_URI;
         //临时变量
         String contactId;
         String displayName;
@@ -103,44 +106,83 @@ public class ContactOptionManager {
             contactId = cursor.getString(cursor.getColumnIndex(ID));
             // 获得联系人姓名：String类型
             displayName = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
-            // 查看联系人有多少个号码，如果没有号码，返回0
-            int phoneCount = cursor.getInt(cursor.getColumnIndex(HAS_PHONE_NUMBER));
-            ContactItem item;
-            if(phoneCount!=0){
+            if(displayName != null) {
+                // 查看联系人有多少个号码，如果没有号码，返回0
+                int phoneCount = cursor.getInt(cursor.getColumnIndex(HAS_PHONE_NUMBER));
+                //头像
+                String avatar_uri = cursor.getString(cursor.getColumnIndex(PHOTO_URI));
+                ContactItem item;
                 item = new ContactItem(displayName);
+                if (avatar_uri != null) {
+                    item.setmAvatar(avatar_uri);
+                    //System.out.println("头像:"+avatar_uri);
+                }
                 item.setmContactId(contactId);
                 item.setmPhoneCount(phoneCount);
                 friendList.add(item);
             }
-
         } while (cursor.moveToNext());
         return friendList;
     }
 
     //读取单个联系人详细信息
-    public ContactItem getDetailFromContactID(Context context, ContactItem item) {
-        Uri CONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        String CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
-        String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
+    public ContactItem getDetailFromContactID(Context context, String id, String name) {
+        Uri PHONE_CONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        Uri EMAIL_CONTENT_URI = ContactsContract.CommonDataKinds.Email.CONTENT_URI;
 
-        Cursor phoneCursor;
+        String CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
+
+        String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
+        String PHONR_TYPE = ContactsContract.CommonDataKinds.Phone.TYPE;
+
+        String EMAIL = ContactsContract.CommonDataKinds.Email.ADDRESS;
+        String EMAIL_TYPE = ContactsContract.CommonDataKinds.Email.TYPE;
+
+
         ContentResolver contentResolver = context.getContentResolver();
         List<String> phoneList = new ArrayList<>();
-        if (item.getmContactId() == null) {
-            return item;
+        ContactItem item = new ContactItem(name);
+        if (id == null) {
+            return null;
         }
-        phoneCursor = contentResolver.query(CONTENT_URI, null, CONTACT_ID + "=" + item.getmContactId(), null, null);
-        if (!phoneCursor.moveToFirst()) {
-            return item;
-        }
-        do {
-            String temp = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
-            if (temp != null) {
-                phoneList.add(temp);
-            }
-        } while (phoneCursor.moveToNext());
 
-        item.setPhoneNumber(phoneList);
+        //获取电话号码
+        Cursor phoneCursor;
+        Map<String, Integer> phones = new HashMap<>();
+        phoneCursor = contentResolver.query(PHONE_CONTENT_URI, null,
+                CONTACT_ID + "=" + id, null, null);
+        if (phoneCursor.moveToFirst()) {
+            do {
+                String str_phone = phoneCursor.getString(
+                        phoneCursor.getColumnIndex(NUMBER));
+                int int_phone_type = phoneCursor.getInt(
+                        phoneCursor.getColumnIndex(PHONR_TYPE));
+
+                if (str_phone != null) {
+                    phones.put(str_phone, int_phone_type);
+                }
+            } while (phoneCursor.moveToNext());
+            item.setmPhones(phones);
+        }
+
+        //获取邮箱
+        Cursor emailCursor;
+        Map<String, Integer> emails = new HashMap<>();
+        emailCursor = contentResolver.query(EMAIL_CONTENT_URI, null,
+                CONTACT_ID + "=" + id, null, null);
+        if(emailCursor.moveToFirst()){
+            do{
+                String str_email = emailCursor.getString(
+                        emailCursor.getColumnIndex(EMAIL));
+                int int_email_type = emailCursor.getInt(
+                        emailCursor.getColumnIndex(EMAIL_TYPE));
+                if(str_email != null) {
+                    emails.put(str_email, int_email_type);
+                    System.out.println(str_email);
+                }
+            }while (emailCursor.moveToNext());
+            item.setmEmails(emails);
+        }
         return item;
     }
 }
