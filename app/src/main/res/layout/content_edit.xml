@@ -12,14 +12,38 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/iv_avatar"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:minHeight="230dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_avatar_sim_large"
-            android:background="@drawable/selector_add_button"
-            />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="match_parent"
+                android:minHeight="230dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_avatar_sim_large"
+                android:background="@drawable/selector_add_button"
+                />
+
+            <ImageButton
+                android:id="@+id/ibtn_takephoto"
+                android:layout_margin="10dp"
+                android:src="@android:drawable/ic_menu_camera"
+                android:background="@android:color/transparent"
+                android:layout_width="50dp"
+                android:layout_gravity="bottom|right"
+                android:layout_height="50dp" />
+
+            <ImageButton
+                android:id="@+id/ibtn_clear_avatar"
+                android:layout_margin="10dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:background="@android:color/transparent"
+                android:layout_width="50dp"
+                android:layout_gravity="top|right"
+                android:layout_height="50dp" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

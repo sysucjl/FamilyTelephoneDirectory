@@ -7,8 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -31,6 +34,7 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -49,6 +53,11 @@ public class EditActivity extends AppCompatActivity{
 
     public final static String MAP_PHONES = "map_phones";
     public final static String MAP_EMAILS = "map_emails";
+    private static final String KEY_TEMP_FILE = "key_temp_file";
+    private static final String KEY_TEMP_CROP_FILE = "key_temp_crop_file";
+
+    private File mTmpFile;
+    private File mTmpCropImageFile;
 
     private Spinner spPhoneType, spEmaiType;
     private ArrayAdapter<String> mPhoneTypeAdapter, mEmailTypeAdapter;
@@ -58,7 +67,7 @@ public class EditActivity extends AppCompatActivity{
     private ImageView ivClearPhone, ivAvatar, ivClearEmail;
     private TextView tvAddPhone, tvSave, tvCancle, tvAddEmail;
     private Bitmap mAvatar;
-
+    private ImageButton ibtnClearAvatar, ibtnTakePhoto;
 
     private EditText edName, edPhone, edMail;
 
@@ -66,13 +75,16 @@ public class EditActivity extends AppCompatActivity{
     private Map<String, Integer> mEmails = new LinkedHashMap<>();
     private String mContactName, mContactAvatar, mContactId;
 
-    private static final String KEY_TEMP_CROP_FILE = "key_temp_crop_file";
-
     private static final int PHOTO_REQUEST = 0;// 选择图片
     private static final int PHOTO_REQUEST_CUT = 1;// 剪裁
-    private File mTmpCropImageFile;
+
 
     private String mTag;
+
+    // 请求加载系统照相机
+    private static final int REQUEST_CAMERA = 100;
+    // 从相册选择
+    private static final int REQUEST_PICTURE = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +158,8 @@ public class EditActivity extends AppCompatActivity{
                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
                 startActivityForResult(intent, PHOTO_REQUEST);*/
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_PICTURE);
             }
         });
 
@@ -180,6 +194,25 @@ public class EditActivity extends AppCompatActivity{
                 finish();
             }
         });
+
+        ibtnClearAvatar = (ImageButton) findViewById(R.id.ibtn_clear_avatar);
+        ibtnTakePhoto = (ImageButton) findViewById(R.id.ibtn_takephoto);
+
+        ibtnClearAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ivAvatar.setImageBitmap(null);
+                mAvatar = null;
+            }
+        });
+        ibtnTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showCameraAction();
+            }
+        });
+
+
     }
 
     private void getIntentExtra() {
@@ -257,93 +290,6 @@ public class EditActivity extends AppCompatActivity{
             ((Spinner)view.findViewById(R.id.sp_email_type)).setSelection(
                     TypeUtils.getTypeToEmailOrder(emailType));
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putSerializable(KEY_TEMP_CROP_FILE, mTmpCropImageFile);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        if(savedInstanceState != null){
-            mTmpCropImageFile = (File) savedInstanceState.getSerializable(KEY_TEMP_CROP_FILE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != RESULT_OK) {
-            System.out.println("返回图片失败");
-            switch (resultCode){
-                case RESULT_CANCELED:
-                    System.out.println("取消");
-                    break;
-                case RESULT_FIRST_USER:
-                    System.out.print("RESULT_FIRST_USER");
-                    break;
-                default:
-                    System.out.println(resultCode);
-                    break;
-            }
-            return;
-        }
-
-        switch (requestCode){
-            case PHOTO_REQUEST:
-                ArrayList<String> imagePaths = data.getStringArrayListExtra("");
-                String imagePath = imagePaths.get(0);
-                System.out.println(imagePath);
-                startPhotoZoom(Uri.fromFile(new File(imagePath)));
-                break;
-            case PHOTO_REQUEST_CUT:
-                System.out.println("剪裁返回");
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpCropImageFile)));
-                Picasso.with(this).load(mTmpCropImageFile).skipMemoryCache().into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        mAvatar = bitmap;
-                        ivAvatar.setImageBitmap(mAvatar);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
-                System.out.println(mTmpCropImageFile.getAbsolutePath());
-                break;
-        }
-    }
-
-    private void startPhotoZoom(Uri data) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(data, "image/*");
-
-        // crop为true是设置在开启的intent中设置显示的view可以剪裁
-        intent.putExtra("crop", "true");
-        // aspectX aspectY 是宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        File dir = FileUtils.getCacheDirectory(this, true);
-
-        mTmpCropImageFile = new File(dir.getAbsolutePath()+"/"+getPhotoFileName());
-        System.out.println(mTmpCropImageFile.getAbsolutePath());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpCropImageFile));
-        // outputX,outputY 是剪裁图片的宽高
-        intent.putExtra("outputX", ScreenTools.getScreenWidth(this));
-        intent.putExtra("outputY", ScreenTools.getScreenWidth(this));
-        intent.putExtra("return-data", true);
-        intent.putExtra("noFaceDetection", true);
-        startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 
     private void saveContact(){
@@ -447,6 +393,127 @@ public class EditActivity extends AppCompatActivity{
         getContentResolver().insert(android.provider.ContactsContract.Data.CONTENT_URI,
                 values);
         values.clear();
+    }
+
+    /**
+     * 选择相机
+     */
+    private void showCameraAction() {
+        // 跳转到系统照相机
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(cameraIntent.resolveActivity(this.getPackageManager()) != null){
+            // 设置系统相机拍照后的输出路径
+            // 创建临时文件
+            try {
+                mTmpFile = FileUtils.createTmpFile(this);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(mTmpFile != null && mTmpFile.exists()) {
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
+                startActivityForResult(cameraIntent, REQUEST_CAMERA);
+            }else{
+                Toast.makeText(this, "图片错误", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(this, "照相机出错", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(KEY_TEMP_CROP_FILE, mTmpCropImageFile);
+        outState.putSerializable(KEY_TEMP_FILE, mTmpFile);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if(savedInstanceState != null){
+            mTmpCropImageFile = (File) savedInstanceState.getSerializable(KEY_TEMP_CROP_FILE);
+            mTmpFile = (File) savedInstanceState.getSerializable(KEY_TEMP_FILE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != RESULT_OK) {
+            System.out.println("返回图片失败");
+            switch (resultCode){
+                case RESULT_CANCELED:
+                    System.out.println("取消");
+                    break;
+                case RESULT_FIRST_USER:
+                    System.out.print("RESULT_FIRST_USER");
+                    break;
+                default:
+                    System.out.println(resultCode);
+                    break;
+            }
+            return;
+        }
+
+        switch (requestCode){
+            case REQUEST_CAMERA:
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpFile)));
+                startPhotoZoom(Uri.fromFile(mTmpFile));
+                break;
+            case REQUEST_PICTURE:
+                startPhotoZoom(data.getData());
+                break;
+            case PHOTO_REQUEST:
+                ArrayList<String> imagePaths = data.getStringArrayListExtra("");
+                String imagePath = imagePaths.get(0);
+                System.out.println(imagePath);
+                startPhotoZoom(Uri.fromFile(new File(imagePath)));
+                break;
+            case PHOTO_REQUEST_CUT:
+                System.out.println("剪裁返回");
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpCropImageFile)));
+                Picasso.with(this).load(mTmpCropImageFile).skipMemoryCache().into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        mAvatar = bitmap;
+                        ivAvatar.setImageBitmap(mAvatar);
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+                System.out.println(mTmpCropImageFile.getAbsolutePath());
+                break;
+        }
+    }
+
+    private void startPhotoZoom(Uri data) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(data, "image/*");
+
+        // crop为true是设置在开启的intent中设置显示的view可以剪裁
+        intent.putExtra("crop", "true");
+        // aspectX aspectY 是宽高的比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        File dir = FileUtils.getCacheDirectory(this, true);
+
+        mTmpCropImageFile = new File(dir.getAbsolutePath()+"/"+getPhotoFileName());
+        System.out.println(mTmpCropImageFile.getAbsolutePath());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpCropImageFile));
+        // outputX,outputY 是剪裁图片的宽高
+        intent.putExtra("outputX", ScreenTools.getScreenWidth(this));
+        intent.putExtra("outputY", ScreenTools.getScreenWidth(this));
+        intent.putExtra("return-data", true);
+        intent.putExtra("noFaceDetection", true);
+        startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 
     // 使用系统当前日期加以调整作为照片的名称

@@ -12,7 +12,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appl_appbarlayout"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:theme="@style/AppTheme.AppBarOverlay"
         android:fitsSystemWindows="true">
@@ -20,7 +20,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:title="联系人详情"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:contentScrim="@android:color/white"
@@ -74,6 +74,7 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/cv_contact_info"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -104,14 +105,11 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-
-
             <LinearLayout
+                android:id="@+id/ll_wedther"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-
 
                 <android.support.v7.widget.CardView
                     android:layout_width="fill_parent"
@@ -178,22 +176,23 @@
                         android:textColor="@android:color/white"
                         android:background="@android:color/transparent"/>
                 </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
-
-                    <Button
-                        android:id="@+id/btn_blacklist"
-                        android:layout_width="fill_parent"
-                        android:layout_height="55dp"
-                        android:text="加入黑名单"
-                        android:textSize="15sp"
-                        android:textColor="@android:color/white"
-                        android:background="@android:color/transparent"/>
-                </android.support.v7.widget.CardView>
             </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
+
+                <Button
+                    android:id="@+id/btn_blacklist"
+                    android:layout_width="fill_parent"
+                    android:layout_height="55dp"
+                    android:text="加入黑名单"
+                    android:textSize="15sp"
+                    android:textColor="@android:color/white"
+                    android:background="@android:color/transparent"/>
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>
