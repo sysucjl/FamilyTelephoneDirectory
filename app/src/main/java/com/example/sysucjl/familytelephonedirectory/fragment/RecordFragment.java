@@ -70,7 +70,6 @@ public class RecordFragment extends Fragment {
         }
 
         // TODO: Change Adapter to display your content
-        //mAdapter = new RecordViewAdapter(tool.getCallLog(getContext()), getContext());
     }
 
     @Override

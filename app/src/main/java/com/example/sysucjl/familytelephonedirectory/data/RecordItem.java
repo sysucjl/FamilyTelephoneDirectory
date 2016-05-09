@@ -14,6 +14,7 @@ public class RecordItem {
     String Number = null;// 电话号码
     String Name = null;// 姓名
     List<RecordSegment> recordSegments;
+    ContactItem mContactItem;
 
     public RecordItem(int id,int type, long CallTime, long Duration, String Number, String Name){
         this.id = id;
@@ -25,6 +26,15 @@ public class RecordItem {
         this.recordSegments = new ArrayList<>();
         recordSegments.add(new RecordSegment(id,type, CallTime, Duration));
     }
+
+    public ContactItem getmContactItem() {
+        return mContactItem;
+    }
+
+    public void setmContactItem(ContactItem mContactItem) {
+        this.mContactItem = mContactItem;
+    }
+
     public int getId(){
         return id;
     }

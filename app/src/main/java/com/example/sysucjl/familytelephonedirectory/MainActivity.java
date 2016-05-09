@@ -40,23 +40,33 @@ public class MainActivity extends AppCompatActivity{
         setSupportActionBar(toolbar);
         //toolbar.setLogo(R.drawable.ic_logo);
 
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewpager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                if(viewPager.getCurrentItem() == 0) {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else if(viewPager.getCurrentItem() == 1){
+                    Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("tag", "add");
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 
         rlFloatBtn = (RelativeLayout) findViewById(R.id.rl_floatBtn);
 
-        ScreenTools s = ScreenTools.instance(getApplicationContext());
-        mSrollWidth = s.getScreenWidth()/2 - s.dip2px(56)/2 - s.dip2px(16);
+        mSrollWidth = ScreenTools.getScreenWidth(this)/2 -
+                ScreenTools.dip2px(56, this)/2 - ScreenTools.dip2px(16, this);
         //mSrollWidth = s.getScreenWidth()/2
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewpager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.setTabsFromPagerAdapter(adapter);
