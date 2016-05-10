@@ -1,6 +1,7 @@
 package com.example.sysucjl.familytelephonedirectory.tools;
 
 import android.Manifest;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
@@ -197,5 +199,47 @@ public class ContactOptionManager {
             item.setmEmails(emails);
         }
         return item;
+    }
+
+    public String getContactID(Context context,String name) {
+        String id = "0";
+        ContentResolver contentResolver = context.getContentResolver();
+        Cursor cursor = contentResolver.query(
+                android.provider.ContactsContract.Contacts.CONTENT_URI,
+                new String[]{android.provider.ContactsContract.Contacts._ID},
+                android.provider.ContactsContract.Contacts.DISPLAY_NAME +
+                        "='" + name + "'", null, null);
+        if(cursor.moveToNext()) {
+            id = cursor.getString(cursor.getColumnIndex(
+                    android.provider.ContactsContract.Contacts._ID));
+        }
+        return id;
+    }
+
+    public void deleteContact(Context context,String contactName) {
+        String TAG = "DeleteContact";
+        String COLUMN_CONTACT_ID = ContactsContract.Data.CONTACT_ID;
+        Log.w(TAG, "**delete start**");
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+
+        String id = getContactID(context,contactName);
+        //delete contact
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI)
+                .withSelection(ContactsContract.RawContacts.CONTACT_ID+"="+id, null)
+                .build());
+        //delete contact information such as phone number,email
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
+                .withSelection(COLUMN_CONTACT_ID + "=" + id, null)
+                .build());
+        Log.d(TAG, "delete contact: " + contactName);
+
+        try {
+            context.getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+            Log.d(TAG, "delete contact success");
+        } catch (Exception e) {
+            Log.d(TAG, "delete contact failed");
+            Log.e(TAG, e.getMessage());
+        }
+        Log.w(TAG, "**delete end**");
     }
 }

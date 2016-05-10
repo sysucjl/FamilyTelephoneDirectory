@@ -7,13 +7,17 @@ package com.example.sysucjl.familytelephonedirectory.adapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.os.Build;
+import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
 import com.example.sysucjl.familytelephonedirectory.PersonInfoActivity;
@@ -27,12 +31,12 @@ import java.util.List;
 
 public class PersonViewAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<ContactItem> mPersons;
+    private List<ContactItem> mPersons;
     private Context mContext;
     private int mAvatarSize;
 
     public PersonViewAdapter(List<ContactItem> persons, Context context) {
-        this.mPersons = (ArrayList<ContactItem>) persons;
+        this.mPersons = persons;
         this.mContext = context;
         mAvatarSize = ScreenTools.dip2px(40, context);
     }
@@ -42,6 +46,7 @@ public class PersonViewAdapter extends RecyclerView.Adapter {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_person_item, parent, false);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         view.setLayoutParams(lp);
+        mContext.getContentResolver().registerContentObserver(ContactsContract.RawContacts.CONTENT_URI,true,new contactObserver(new Handler(),mContext));
         return new PersonHolder(view);
     }
 
@@ -62,7 +67,7 @@ public class PersonViewAdapter extends RecyclerView.Adapter {
     public int getPositionForSection(String section) {
         for (int i = 0; i < mPersons.size(); i++) {
             String sortStr = mPersons.get(i).getmSection();
-            if (sortStr.equals(section)) {
+            if (sortStr!=null && sortStr.equals(section)) {
                 return i;
             }
         }
@@ -103,6 +108,25 @@ public class PersonViewAdapter extends RecyclerView.Adapter {
             intent.putExtra(PersonInfoActivity.PHOTO_URI, item.getmAvatar());
             intent.putExtra(PersonInfoActivity.CONTACT_COLOR, item.getmColor());
             mContext.startActivity(intent);
+        }
+    }
+
+    class contactObserver extends ContentObserver {
+        private Context myContext;
+
+        public contactObserver(Handler handler,Context context){
+            super(handler);
+            this.myContext = context;
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            Toast.makeText(myContext, "contact database has changed!", Toast.LENGTH_SHORT).show();
+            super.onChange(selfChange);
+            ContactOptionManager contactOptionManager = new ContactOptionManager();
+            mPersons = contactOptionManager.getBriefContactInfor(myContext);
+            notifyDataSetChanged();
+            myContext.getContentResolver().unregisterContentObserver(this);
         }
     }
 

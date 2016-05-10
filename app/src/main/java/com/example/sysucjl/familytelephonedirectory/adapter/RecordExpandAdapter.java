@@ -40,10 +40,11 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<RecordItem> mRecordItems;
+
     public RecordExpandAdapter(Context context, List<RecordItem> recordItems){
         this.mContext = context;
         this.mRecordItems = recordItems;
-        mContext.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, true,new recordObserver(new Handler(),mContext,0));
+
     }
 
     @Override
@@ -96,6 +97,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        mContext.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, true,new recordObserver(new Handler(),mContext,0));
         RecordGroupHolder recordGroupHolder = null;
         if(convertView == null){
             recordGroupHolder = new RecordGroupHolder();

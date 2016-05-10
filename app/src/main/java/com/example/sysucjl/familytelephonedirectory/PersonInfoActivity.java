@@ -1,9 +1,11 @@
 package com.example.sysucjl.familytelephonedirectory;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -566,6 +568,26 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
         startActivity(intent);
     }
 
+    private void deleteContact(){
+        new SweetAlertDialog(PersonInfoActivity.this,SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("删除联系人!")
+                .setContentText("该联系人将被删除")
+                .setConfirmText("确认")
+                .setCancelText("取消")
+                .showCancelButton(true)
+                .setCancelClickListener(null)
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        ContactOptionManager contactOptionManager = new ContactOptionManager();
+                        contactOptionManager.deleteContact(PersonInfoActivity.this, mContactName);
+                        Intent intent = new Intent(PersonInfoActivity.this,MainActivity.class);
+                        startActivity(intent);
+                    }
+                }).show();
+
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //getMenuInflater().inflate(R.menu.menu_edit, menu);
@@ -617,6 +639,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
                 editContact();
                 break;
             case R.id.tv_delete:
+                deleteContact();
                 break;
         }
     }

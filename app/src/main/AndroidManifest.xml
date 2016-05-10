@@ -26,6 +26,7 @@
         tools:replace="android:icon">
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
