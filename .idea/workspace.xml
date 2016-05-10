@@ -30,12 +30,8 @@
   <component name="ChangeListManager">
     <list default="true" id="e954aef7-b5f6-4b2c-bc57-7aa93deac1aa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/view/AvatarViewGroup.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/view/AvatarViewGroup.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/selector_add_button.xml" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/selector_add_button.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_person_info.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_person_info.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_edit.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_edit.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java" />
     </list>
     <ignored path="FamilyTelephoneDirectory.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,52 +59,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="PersonInfoActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java">
+      <file leaf-file-name="PersonViewAdapter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/adapter/PersonViewAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-283.76666">
-              <caret line="618" column="5" selection-start-line="618" selection-start-column="5" selection-end-line="618" selection-end-column="5" />
-              <folding>
-                <element signature="e#12622#13727#0" expanded="true" />
-                <element signature="e#13726#13727#0" expanded="true" />
-                <element signature="e#15640#21832#0" expanded="true" />
-                <element signature="e#16246#17445#0" expanded="true" />
-                <element signature="e#17444#17445#0" expanded="true" />
-                <element signature="e#17963#21780#0" expanded="true" />
-                <element signature="e#18842#21470#0" expanded="true" />
-                <element signature="e#19659#21264#0" expanded="true" />
-                <element signature="e#21263#21264#0" expanded="true" />
-                <element signature="e#21469#21470#0" expanded="true" />
-                <element signature="e#21779#21780#0" expanded="true" />
-                <element signature="e#21831#21832#0" expanded="true" />
-                <element signature="e#23841#25484#0" expanded="true" />
-                <element signature="e#25483#25484#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_person_info.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_person_info.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.0677967">
-              <caret line="197" column="52" selection-start-line="197" selection-start-column="52" selection-end-line="197" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list_contactinfo_item.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_contactinfo_item.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="11.18644">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -124,11 +79,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="selector_add_button.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/selector_add_button.xml">
+      <file leaf-file-name="PersonFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7782101">
-              <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="95" column="60" selection-start-line="95" selection-start-column="60" selection-end-line="95" selection-end-column="60" />
+              <folding>
+                <element signature="e#8409#8410#0" expanded="true" />
+                <element signature="e#8449#8450#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ContactOptionManager.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5330739">
+              <caret line="134" column="17" selection-start-line="134" selection-start-column="17" selection-end-line="134" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -3245,13 +3213,11 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/utils/ColorUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/utils/TypeUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/adapter/PersonViewAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/data/ContactItem.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/adapter/ContactInfoAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/EditActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/view/AvatarViewGroup.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/selector_edit_button.xml" />
@@ -3259,6 +3225,8 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_person_info.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/selector_add_button.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java" />
       </list>
     </option>
   </component>
@@ -3319,278 +3287,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="layout" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="familytelephonedirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="familytelephonedirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="view" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="familytelephonedirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tools" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FamilyTelephoneDirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="familytelephonedirectory" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="adapter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -3926,7 +3622,13 @@
       <option name="project" value="LOCAL" />
       <updated>1462846358734</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="修改UI">
+      <created>1462854219116</created>
+      <option name="number" value="00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1462854219116</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -3939,8 +3641,8 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.038655464" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19288956" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08739496" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19288956" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.11596639" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -3948,7 +3650,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27987897" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27987897" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3980,7 +3682,8 @@
     <MESSAGE value="增加头像和新建联系人" />
     <MESSAGE value="修改联系人头像" />
     <MESSAGE value="修改联系人页面头像显示" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改联系人页面头像显示" />
+    <MESSAGE value="修改UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改UI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -4190,14 +3893,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.6401446">
-          <caret line="143" column="14" selection-start-line="143" selection-start-column="14" selection-end-line="143" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.101265825">
@@ -4227,16 +3922,6 @@
         <state vertical-scroll-proportion="0.13245033">
           <caret line="17" column="17" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.1134753">
-          <caret line="0" column="23" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4293,14 +3978,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/adapter/PersonViewAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.7679558">
-          <caret line="104" column="43" selection-start-line="104" selection-start-column="43" selection-end-line="104" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_edit.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -4346,29 +4023,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-283.76666">
-          <caret line="618" column="5" selection-start-line="618" selection-start-column="5" selection-end-line="618" selection-end-column="5" />
-          <folding>
-            <element signature="e#12622#13727#0" expanded="true" />
-            <element signature="e#13726#13727#0" expanded="true" />
-            <element signature="e#15640#21832#0" expanded="true" />
-            <element signature="e#16246#17445#0" expanded="true" />
-            <element signature="e#17444#17445#0" expanded="true" />
-            <element signature="e#17963#21780#0" expanded="true" />
-            <element signature="e#18842#21470#0" expanded="true" />
-            <element signature="e#19659#21264#0" expanded="true" />
-            <element signature="e#21263#21264#0" expanded="true" />
-            <element signature="e#21469#21470#0" expanded="true" />
-            <element signature="e#21779#21780#0" expanded="true" />
-            <element signature="e#21831#21832#0" expanded="true" />
-            <element signature="e#23841#25484#0" expanded="true" />
-            <element signature="e#25483#25484#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_contactinfo_item.xml">
       <provider editor-type-id="android-designer">
         <state />
@@ -4391,6 +4045,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="16.10124">
+          <caret line="618" column="5" selection-start-line="618" selection-start-column="5" selection-end-line="618" selection-end-column="5" />
+          <folding>
+            <element signature="e#12622#13727#0" expanded="true" />
+            <element signature="e#13726#13727#0" expanded="true" />
+            <element signature="e#15640#21832#0" expanded="true" />
+            <element signature="e#16246#17445#0" expanded="true" />
+            <element signature="e#17444#17445#0" expanded="true" />
+            <element signature="e#17963#21780#0" expanded="true" />
+            <element signature="e#18842#21470#0" expanded="true" />
+            <element signature="e#19659#21264#0" expanded="true" />
+            <element signature="e#21263#21264#0" expanded="true" />
+            <element signature="e#21469#21470#0" expanded="true" />
+            <element signature="e#21779#21780#0" expanded="true" />
+            <element signature="e#21831#21832#0" expanded="true" />
+            <element signature="e#23841#25484#0" expanded="true" />
+            <element signature="e#25483#25484#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/selector_add_button.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.82474226">
+          <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.368421">
@@ -4399,10 +4084,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/selector_add_button.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/adapter/PersonViewAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7782101">
-          <caret line="20" column="38" selection-start-line="20" selection-start-column="38" selection-end-line="20" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="64" column="0" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="95" column="60" selection-start-line="95" selection-start-column="60" selection-end-line="95" selection-end-column="60" />
+          <folding>
+            <element signature="e#8409#8410#0" expanded="true" />
+            <element signature="e#8449#8450#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/tools/ContactOptionManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5330739">
+          <caret line="134" column="17" selection-start-line="134" selection-start-column="17" selection-end-line="134" selection-end-column="17" />
           <folding />
         </state>
       </provider>
