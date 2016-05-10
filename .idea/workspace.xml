@@ -25,11 +25,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e954aef7-b5f6-4b2c-bc57-7aa93deac1aa" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/EditActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/EditActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/fragment/PersonFragment.java" />
     </list>
     <ignored path="FamilyTelephoneDirectory.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -60,23 +56,25 @@
       <file leaf-file-name="PersonInfoActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.1169977">
-              <caret line="328" column="31" selection-start-line="328" selection-start-column="31" selection-end-line="328" selection-end-column="31" />
+            <state vertical-scroll-proportion="-1.6335541">
+              <caret line="297" column="47" selection-start-line="297" selection-start-column="47" selection-end-line="297" selection-end-column="47" />
               <folding>
-                <element signature="e#15014#16119#0" expanded="true" />
-                <element signature="e#16118#16119#0" expanded="true" />
-                <element signature="e#18265#24459#0" expanded="true" />
-                <element signature="e#18871#20071#0" expanded="true" />
-                <element signature="e#20070#20071#0" expanded="true" />
-                <element signature="e#20589#24407#0" expanded="true" />
-                <element signature="e#21468#24096#0" expanded="true" />
-                <element signature="e#22285#23890#0" expanded="true" />
-                <element signature="e#23889#23890#0" expanded="true" />
-                <element signature="e#24095#24096#0" expanded="true" />
-                <element signature="e#24406#24407#0" expanded="true" />
-                <element signature="e#24458#24459#0" expanded="true" />
-                <element signature="e#26256#27899#0" expanded="true" />
-                <element signature="e#27898#27899#0" expanded="true" />
+                <element signature="e#11975#11976#0" expanded="true" />
+                <element signature="e#12060#12061#0" expanded="true" />
+                <element signature="e#12664#13769#0" expanded="true" />
+                <element signature="e#13768#13769#0" expanded="true" />
+                <element signature="e#15915#22109#0" expanded="true" />
+                <element signature="e#16521#17721#0" expanded="true" />
+                <element signature="e#17720#17721#0" expanded="true" />
+                <element signature="e#18239#22057#0" expanded="true" />
+                <element signature="e#19118#21746#0" expanded="true" />
+                <element signature="e#19935#21540#0" expanded="true" />
+                <element signature="e#21539#21540#0" expanded="true" />
+                <element signature="e#21745#21746#0" expanded="true" />
+                <element signature="e#22056#22057#0" expanded="true" />
+                <element signature="e#22108#22109#0" expanded="true" />
+                <element signature="e#23906#25549#0" expanded="true" />
+                <element signature="e#25548#25549#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -3881,7 +3879,13 @@
       <option name="project" value="LOCAL" />
       <updated>1462804551552</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="修改联系人页面头像显示">
+      <created>1462846238682</created>
+      <option name="number" value="00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1462846238682</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -3903,7 +3907,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27987897" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27987897" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -3934,7 +3938,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="增加头像和新建联系人" />
     <MESSAGE value="修改联系人头像" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改联系人头像" />
+    <MESSAGE value="修改联系人页面头像显示" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改联系人页面头像显示" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -4340,23 +4345,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/sysucjl/familytelephonedirectory/PersonInfoActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1169977">
-          <caret line="328" column="31" selection-start-line="328" selection-start-column="31" selection-end-line="328" selection-end-column="31" />
+        <state vertical-scroll-proportion="-1.6335541">
+          <caret line="297" column="47" selection-start-line="297" selection-start-column="47" selection-end-line="297" selection-end-column="47" />
           <folding>
-            <element signature="e#15014#16119#0" expanded="true" />
-            <element signature="e#16118#16119#0" expanded="true" />
-            <element signature="e#18265#24459#0" expanded="true" />
-            <element signature="e#18871#20071#0" expanded="true" />
-            <element signature="e#20070#20071#0" expanded="true" />
-            <element signature="e#20589#24407#0" expanded="true" />
-            <element signature="e#21468#24096#0" expanded="true" />
-            <element signature="e#22285#23890#0" expanded="true" />
-            <element signature="e#23889#23890#0" expanded="true" />
-            <element signature="e#24095#24096#0" expanded="true" />
-            <element signature="e#24406#24407#0" expanded="true" />
-            <element signature="e#24458#24459#0" expanded="true" />
-            <element signature="e#26256#27899#0" expanded="true" />
-            <element signature="e#27898#27899#0" expanded="true" />
+            <element signature="e#11975#11976#0" expanded="true" />
+            <element signature="e#12060#12061#0" expanded="true" />
+            <element signature="e#12664#13769#0" expanded="true" />
+            <element signature="e#13768#13769#0" expanded="true" />
+            <element signature="e#15915#22109#0" expanded="true" />
+            <element signature="e#16521#17721#0" expanded="true" />
+            <element signature="e#17720#17721#0" expanded="true" />
+            <element signature="e#18239#22057#0" expanded="true" />
+            <element signature="e#19118#21746#0" expanded="true" />
+            <element signature="e#19935#21540#0" expanded="true" />
+            <element signature="e#21539#21540#0" expanded="true" />
+            <element signature="e#21745#21746#0" expanded="true" />
+            <element signature="e#22056#22057#0" expanded="true" />
+            <element signature="e#22108#22109#0" expanded="true" />
+            <element signature="e#23906#25549#0" expanded="true" />
+            <element signature="e#25548#25549#0" expanded="true" />
           </folding>
         </state>
       </provider>

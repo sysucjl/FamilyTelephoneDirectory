@@ -292,41 +292,6 @@ public class PersonInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess() {
                             System.out.println("设置头像成功了");
-                            /*Drawable drawable = ivBackDrop.getDrawable();
-                            Bitmap bitmap = ivBackDrop.getDrawingCache();
-                            System.out.println("从imageview中获得图片："+bitmap.getWidth()+" "+bitmap.getWidth());
-                            Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-                                @Override
-                                public void onGenerated(Palette palette) {
-                                    Palette.Swatch vibrant = palette.getMutedSwatch();
-                                    if (vibrant != null) {
-                                        mColor = vibrant.getRgb();
-                                        setColor();
-                                        System.out.println("vibrant:" + mColor);
-                                        if (mPhonesListAdapter != null)
-                                            mPhonesListAdapter.setmColor(mColor);
-                                        if(mEmailsListAdapter != null)
-                                            mEmailsListAdapter.setmColor(mColor);
-                                    } else {
-                                        System.out.println("vibrant is null");
-                                    }
-                                    //ivBackDrop.setImageBitmap(bitmap);
-                                }
-                            });
-
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                                GetBlurImage getBlurImage = new GetBlurImage(PersonInfoActivity.this) {
-                                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-                                    @Override
-                                    protected void onPostExecute(Bitmap bitmap) {
-                                        ivBlurImage.setImageBitmap(bitmap);
-                                        ivBlurImage.setImageAlpha(0);
-                                        mToolbarLayout.setContentScrimColor(Color.parseColor("#30000000"));
-                                        //mToolbarLayout.setContentScrim(new BitmapDrawable(bitmap));
-                                    }
-                                };
-                                getBlurImage.execute(bitmap);
-                            }*/
                         }
 
                         @Override
