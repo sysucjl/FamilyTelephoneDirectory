@@ -4,6 +4,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -154,10 +157,6 @@ public class EditActivity extends AppCompatActivity{
         ivAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent intent = new Intent(EditActivity.this, MultiImageSelectorActivity.class);
-                intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_SINGLE);
-                intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
-                startActivityForResult(intent, PHOTO_REQUEST);*/
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, REQUEST_PICTURE);
             }
@@ -352,20 +351,20 @@ public class EditActivity extends AppCompatActivity{
             }
         }
 
-        if(mAvatar != null){
+        if(mTmpCropImageFile != null){
+            //FileInputStream fileInputStream = new FileInputStream(mTmpCropImageFile);
             final ByteArrayOutputStream os = new ByteArrayOutputStream();
             // 将Bitmap压缩成PNG编码，质量为100%存储
-            mAvatar.compress(Bitmap.CompressFormat.PNG, 100, os);
+            //mAvatar.compress(Bitmap.CompressFormat.PNG, 100, os);
+            Bitmap bitmap = BitmapFactory.decodeFile(mTmpCropImageFile.getAbsolutePath());
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, os);
             byte[] avatar = os.toByteArray();
             values.put(ContactsContract.Contacts.Data.RAW_CONTACT_ID, rawContactId);
             values.put(ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE);
             values.put(ContactsContract.CommonDataKinds.Photo.PHOTO, avatar);
-            getContentResolver().insert(ContactsContract.Data.CONTENT_URI,
-                    values);
+            getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
         }
-
         finish();
-
     }
 
     private void savePhoneNum(String s, long rawContactId, int position) {
@@ -472,23 +471,7 @@ public class EditActivity extends AppCompatActivity{
             case PHOTO_REQUEST_CUT:
                 System.out.println("剪裁返回");
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpCropImageFile)));
-                Picasso.with(this).load(mTmpCropImageFile).skipMemoryCache().into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        mAvatar = bitmap;
-                        ivAvatar.setImageBitmap(mAvatar);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                    }
-                });
+                Picasso.with(this).load(mTmpCropImageFile).into(ivAvatar);
                 System.out.println(mTmpCropImageFile.getAbsolutePath());
                 break;
         }

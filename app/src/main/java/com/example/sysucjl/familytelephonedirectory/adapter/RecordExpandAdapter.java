@@ -20,16 +20,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sysucjl.familytelephonedirectory.EditActivity;
 import com.example.sysucjl.familytelephonedirectory.R;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordSegment;
+import com.example.sysucjl.familytelephonedirectory.data.SerializableMap;
 import com.example.sysucjl.familytelephonedirectory.tools.BlackListOptionManager;
 import com.example.sysucjl.familytelephonedirectory.utils.ColorUtils;
 import com.example.sysucjl.familytelephonedirectory.tools.ContactOptionManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DateTools;
+import com.example.sysucjl.familytelephonedirectory.utils.TypeUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -40,6 +45,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<RecordItem> mRecordItems;
+
     public RecordExpandAdapter(Context context, List<RecordItem> recordItems){
         this.mContext = context;
         this.mRecordItems = recordItems;
@@ -114,6 +120,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
             recordGroupHolder.tvPhoneNum = (TextView) convertView.findViewById(R.id.tv_phonenum);
             recordGroupHolder.tvAddress = (TextView) convertView.findViewById(R.id.tv_record_address);
             recordGroupHolder.tvAddBlacknumber = (TextView) convertView.findViewById(R.id.tv_add_blacknumber);
+            recordGroupHolder.tvAddContact = (TextView) convertView.findViewById(R.id.tv_add_contact);
             convertView.setTag(recordGroupHolder);
         }else{
             recordGroupHolder = (RecordGroupHolder) convertView.getTag();
@@ -141,6 +148,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
             recordGroupHolder.vRecordDivide.setVisibility(View.VISIBLE);
             recordGroupHolder.llChoose.setVisibility(View.VISIBLE);
             if(!TextUtils.isEmpty(recordItem.getName())){
+                recordGroupHolder.tvAddContact.setVisibility(View.GONE);
                 if(!TextUtils.isEmpty(recordItem.getNumber())) {
                     recordGroupHolder.tvPhoneNum.setVisibility(View.VISIBLE);
                     recordGroupHolder.tvPhoneNum.setText(recordItem.getNumber());
@@ -149,6 +157,21 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                 }
             }else{
                 recordGroupHolder.tvPhoneNum.setVisibility(View.GONE);
+                recordGroupHolder.tvAddContact.setVisibility(View.VISIBLE);
+                recordGroupHolder.tvAddContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, EditActivity.class);
+                        intent.putExtra(EditActivity.TAG, EditActivity.TAG_EDIT);
+                        intent.putExtra(EditActivity.CONTACT_NAME, recordItem.getNumber());
+                        SerializableMap serializableMap = new SerializableMap();
+                        Map<String, Integer> phones = new HashMap<String, Integer>();
+                        phones.put(recordItem.getNumber(), TypeUtils.PHONETYPE.get("手机"));
+                        serializableMap.setMap(phones);
+                        intent.putExtra(EditActivity.MAP_PHONES, serializableMap);
+                        mContext.startActivity(intent);
+                    }
+                });
             }
             if(TextUtils.isEmpty(recordItem.getNumber())){
                 recordGroupHolder.tvCallBack.setVisibility(View.GONE);
@@ -368,7 +391,8 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
     class RecordGroupHolder{
         public View vRecordDivide;
         public ImageView ivRecordIcon, ivAvatarSim;
-        public TextView tvRecordName, tvCallBack, tvDelete, tvPhoneNum, tvAddress, tvAddBlacknumber;
+        public TextView tvRecordName, tvCallBack, tvDelete, tvAddContact,
+                tvPhoneNum, tvAddress, tvAddBlacknumber;
         public TextView tvRecordDate, tvAvatarName;
         public LinearLayout llBackground;
         public LinearLayout llRecordType;

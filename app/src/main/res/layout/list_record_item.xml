@@ -134,6 +134,17 @@
             />
 
         <TextView
+            android:id="@+id/tv_add_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="添加联系人"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/colorTextLight"
+            />
+
+        <TextView
             android:id="@+id/tv_add_blacknumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
