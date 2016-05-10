@@ -1,6 +1,7 @@
 package com.example.sysucjl.familytelephonedirectory.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sysucjl.familytelephonedirectory.PersonInfoActivity;
 import com.example.sysucjl.familytelephonedirectory.R;
 import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
@@ -63,7 +65,7 @@ public class AvatarViewGroup extends FrameLayout{
         }
     }
 
-    public void setContact(ContactItem contact, int avatarSize){
+    public void setContact(final ContactItem contact, int avatarSize){
         if(contact.getmAvatar() != null){
             civAvatar.setVisibility(VISIBLE);
             flAvatar.setVisibility(GONE);
@@ -89,5 +91,18 @@ public class AvatarViewGroup extends FrameLayout{
                 rvAvatarBackground.setColor(contact.getmColor());
             }
         }
+        setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(mContext, PersonInfoActivity.class);
+                intent.putExtra("tab_name","contact");
+                intent.putExtra(PersonInfoActivity.CONTACT_ID, contact.getmContactId());
+                intent.putExtra(PersonInfoActivity.CONTACT_NAME, contact.getName());
+                intent.putExtra(PersonInfoActivity.PHOTO_URI, contact.getmAvatar());
+                intent.putExtra(PersonInfoActivity.CONTACT_COLOR, contact.getmColor());
+                mContext.startActivity(intent);
+            }
+        });
     }
 }
