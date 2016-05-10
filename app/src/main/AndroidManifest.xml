@@ -51,6 +51,7 @@
         <activity
             android:name=".EditActivity"
             android:label="@string/title_activity_edit"
+            android:process=":picture"
             android:theme="@style/AppTheme"></activity>
     </application>
 

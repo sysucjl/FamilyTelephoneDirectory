@@ -201,7 +201,7 @@ public class EditActivity extends AppCompatActivity{
         ibtnClearAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ivAvatar.setImageBitmap(null);
+                ivAvatar.setImageResource(R.drawable.ic_avatar_sim_large);
                 mAvatar = null;
             }
         });

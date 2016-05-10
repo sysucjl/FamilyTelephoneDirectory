@@ -93,9 +93,6 @@ public class PersonFragment extends Fragment{
         String lastSortLetter = "A";
         boolean continute = true;
         for(int i = 0; i < mContactItems.size(); i++){
-            //pinyin = PinyinHelper.toHanYuPinyinStringFirstLetter(mContactItems.get(i).getName(),
-            //       defaultFormat, null, true);
-            //String[] result = PinyinHelper.toHanyuPinyinStringArray(mContactItems.get(i).getName().charAt(0));
             continute = true;
             char firstLetter = mContactItems.get(i).getName().charAt(0);
             if(firstLetter > 128) {
@@ -105,7 +102,7 @@ public class PersonFragment extends Fragment{
                     if (result != null) {
                         if(result.length == 1){
                             sortLetter = result[0].substring(0,1);
-                            System.out.println(sortLetter);
+                            //System.out.println(sortLetter);
                         }else {
                             if (result.length > 1) {
                                 for (String tmp : result) {
@@ -132,21 +129,16 @@ public class PersonFragment extends Fragment{
                     badHanyuPinyinOutputFormatCombination.printStackTrace();
                 }
             }else{
-                System.out.println("不是汉字");
+                //System.out.println("不是汉字");
                 if(firstLetter >= 'a' && firstLetter <= 'z'){
                     sortLetter = String.valueOf((char) (firstLetter - 'a' + 'A'));
                 }else{
                     sortLetter = String.valueOf(firstLetter);
                 }
             }
-            //System.out.println("result.length:" + result.length);
-            //for(int k = 0; k < result.length; k++)
-            //    System.out.println("---------------" + result[k] + " " + result[k].length());
-            //sortLetter = pinyin.substring(0,1).toUpperCase();
-            //String pinyin = CharacterParser.getSelling(mContactItems.get(i).getName());
             mContactItems.get(i).setmPinYin(pinyin);
-            System.out.println(pinyin);
-            System.out.println(sortLetter);
+            //System.out.println(pinyin);
+            //System.out.println(sortLetter);
             lastSortLetter = sortLetter;
             if(sortLetter.matches("[A-Z]")){
                 mContactItems.get(i).setmSection(sortLetter);
