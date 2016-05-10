@@ -46,6 +46,7 @@ public class ContactOptionManager {
         int date_index = cursor.getColumnIndex(CallLog.Calls.DATE);
         int duration_index = cursor.getColumnIndex(CallLog.Calls.DURATION);
         int name_index = cursor.getColumnIndex(CallLog.Calls.CACHED_NAME);
+        int photo_id_index = cursor.getColumnIndex(CallLog.Calls.CACHED_PHOTO_ID);
 
         List<RecordItem> recordItems = new ArrayList<>();
         String lastphNum = "";
@@ -55,11 +56,44 @@ public class ContactOptionManager {
             int callcode = Integer.parseInt(cursor.getString(type_index));
             long callDate = Long.valueOf(cursor.getString(date_index));
             long callDuration = Long.valueOf(cursor.getString(duration_index));
+
             String name = cursor.getString(name_index);
             if (phNum.equals(lastphNum) && recordItems.size() > 0) {
                 recordItems.get(recordItems.size() - 1).addRecordSegement(callid,callcode, callDate, callDuration);
             } else {
                 RecordItem item = new RecordItem(callid, callcode, callDate, callDuration, phNum, name);
+                if(name != null) {
+                    int photo_id = cursor.getInt(photo_id_index);
+                    if (photo_id != 0) {
+                        //System.out.println("通话记录："+name+" "+"头像id:"+photo_id);
+                        //查找通话记录头像
+                        Cursor c = context.getContentResolver().query(ContactsContract.Data.CONTENT_URI, new String[]{
+                                ContactsContract.CommonDataKinds.Photo.PHOTO_URI,
+                                ContactsContract.CommonDataKinds.Photo.CONTACT_ID
+                        }, ContactsContract.Data._ID + "=?", new String[]{
+                                Integer.toString(photo_id)
+                        }, null);
+                        if(c != null){
+                            if(c.getCount() > 0){
+                                c.moveToFirst();
+                                String photo_uri = c.getString(c.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
+                                String contact_id = c.getString(c.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Photo.CONTACT_ID));
+                                //System.out.println("通话记录："+name+ " 头像地址:"+photo_uri);
+                                ContactItem contactItem = new ContactItem(name);
+                                if(photo_uri != null){
+                                    contactItem.setmAvatar(photo_uri);
+                                }
+                                if(contact_id != null){
+                                    contactItem.setmContactId(contact_id);
+                                    //System.out.println("通话记录："+name+" "+contact_id);
+                                }
+                                item.setmContactItem(contactItem);
+                            }
+                        }else{
+                            System.out.println("查找通话记录头像为空");
+                        }
+                    }
+                }
                 recordItems.add(item);
             }
             lastphNum = phNum;
@@ -107,8 +141,10 @@ public class ContactOptionManager {
         do {
             // 获得联系人的ID：String类型  列名-->列数-->列内容
             contactId = cursor.getString(cursor.getColumnIndex(ID));
+
             // 获得联系人姓名：String类型
             displayName = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
+            //System.out.println("联系人id:"+displayName+" "+contactId);
             if(displayName != null) {
                 // 查看联系人有多少个号码，如果没有号码，返回0
                 int phoneCount = cursor.getInt(cursor.getColumnIndex(HAS_PHONE_NUMBER));
@@ -118,7 +154,7 @@ public class ContactOptionManager {
                 item = new ContactItem(displayName);
                 if (avatar_uri != null) {
                     item.setmAvatar(avatar_uri);
-                    //System.out.println("头像:"+avatar_uri);
+                   //System.out.println(displayName+" 头像:"+avatar_uri);
                 }
                 item.setmContactId(contactId);
                 item.setmPhoneCount(phoneCount);

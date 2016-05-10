@@ -20,16 +20,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sysucjl.familytelephonedirectory.EditActivity;
 import com.example.sysucjl.familytelephonedirectory.R;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordSegment;
+import com.example.sysucjl.familytelephonedirectory.data.SerializableMap;
 import com.example.sysucjl.familytelephonedirectory.tools.BlackListOptionManager;
+import com.example.sysucjl.familytelephonedirectory.tools.ScreenTools;
 import com.example.sysucjl.familytelephonedirectory.utils.ColorUtils;
 import com.example.sysucjl.familytelephonedirectory.tools.ContactOptionManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DateTools;
+import com.example.sysucjl.familytelephonedirectory.utils.TypeUtils;
+import com.example.sysucjl.familytelephonedirectory.view.AvatarViewGroup;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -40,11 +47,13 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<RecordItem> mRecordItems;
+    private int mAvatarSize;
 
     public RecordExpandAdapter(Context context, List<RecordItem> recordItems){
         this.mContext = context;
         this.mRecordItems = recordItems;
-
+        mContext.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, true,new recordObserver(new Handler(),mContext,0));
+        mAvatarSize = ScreenTools.dip2px(40, mContext);
     }
 
     @Override
@@ -97,12 +106,10 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        mContext.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, true,new recordObserver(new Handler(),mContext,0));
         RecordGroupHolder recordGroupHolder = null;
         if(convertView == null){
             recordGroupHolder = new RecordGroupHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.list_record_item, parent, false);
-            recordGroupHolder.ivRecordIcon = (ImageView) convertView.findViewById(R.id.iv_record_icon);
             recordGroupHolder.tvRecordName = (TextView) convertView.findViewById(R.id.tv_record_name);
             recordGroupHolder.tvRecordDate = (TextView) convertView.findViewById(R.id.tv_record_date);
             recordGroupHolder.llBackground = (LinearLayout) convertView.findViewById(R.id.ll_background);
@@ -111,16 +118,19 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
             recordGroupHolder.llChoose = (LinearLayout) convertView.findViewById(R.id.ll_choose);
             recordGroupHolder.tvCallBack = (TextView) convertView.findViewById(R.id.tv_callback);
             recordGroupHolder.tvDelete = (TextView) convertView.findViewById(R.id.tv_delete);
-            recordGroupHolder.tvAvatarName = (TextView) convertView.findViewById(R.id.tv_avatar_name);
-            recordGroupHolder.ivAvatarSim = (ImageView) convertView.findViewById(R.id.img_avatar_sim);
             recordGroupHolder.tvPhoneNum = (TextView) convertView.findViewById(R.id.tv_phonenum);
             recordGroupHolder.tvAddress = (TextView) convertView.findViewById(R.id.tv_record_address);
             recordGroupHolder.tvAddBlacknumber = (TextView) convertView.findViewById(R.id.tv_add_blacknumber);
+            recordGroupHolder.tvAddContact = (TextView) convertView.findViewById(R.id.tv_add_contact);
+            recordGroupHolder.mAvatarViewGroup = (AvatarViewGroup) convertView.findViewById(R.id.avatar_group_view);
             convertView.setTag(recordGroupHolder);
         }else{
             recordGroupHolder = (RecordGroupHolder) convertView.getTag();
         }
         final RecordItem recordItem = mRecordItems.get(groupPosition);
+
+        recordGroupHolder.mAvatarViewGroup.setRecord(recordItem, mAvatarSize);
+
         //address----------------------------------------------------
         DBManager dbHelper;
         dbHelper=DBManager.getInstance(mContext);
@@ -143,6 +153,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
             recordGroupHolder.vRecordDivide.setVisibility(View.VISIBLE);
             recordGroupHolder.llChoose.setVisibility(View.VISIBLE);
             if(!TextUtils.isEmpty(recordItem.getName())){
+                recordGroupHolder.tvAddContact.setVisibility(View.GONE);
                 if(!TextUtils.isEmpty(recordItem.getNumber())) {
                     recordGroupHolder.tvPhoneNum.setVisibility(View.VISIBLE);
                     recordGroupHolder.tvPhoneNum.setText(recordItem.getNumber());
@@ -151,6 +162,21 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                 }
             }else{
                 recordGroupHolder.tvPhoneNum.setVisibility(View.GONE);
+                recordGroupHolder.tvAddContact.setVisibility(View.VISIBLE);
+                recordGroupHolder.tvAddContact.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, EditActivity.class);
+                        intent.putExtra(EditActivity.TAG, EditActivity.TAG_EDIT);
+                        intent.putExtra(EditActivity.CONTACT_NAME, recordItem.getNumber());
+                        SerializableMap serializableMap = new SerializableMap();
+                        Map<String, Integer> phones = new HashMap<String, Integer>();
+                        phones.put(recordItem.getNumber(), TypeUtils.PHONETYPE.get("手机"));
+                        serializableMap.setMap(phones);
+                        intent.putExtra(EditActivity.MAP_PHONES, serializableMap);
+                        mContext.startActivity(intent);
+                    }
+                });
             }
             if(TextUtils.isEmpty(recordItem.getNumber())){
                 recordGroupHolder.tvCallBack.setVisibility(View.GONE);
@@ -186,7 +212,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                                         tool.deleteRecordById(mContext,recordItem.getRecordSegments().get(i).getId());
                                     }
                                     mRecordItems.remove(groupPosition);
-                                    //mAdapterListener.myNotifyDataSetChanged(groupPosition);
+                                    mAdapterListener.myNotifyDataSetChanged(groupPosition);
 
                                     sDialog.setTitleText("已删除!")
                                             .setContentText("该组通话记录已被删除!")
@@ -236,13 +262,6 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
         if(!TextUtils.isEmpty(recordItem.getName())) {
             char c = recordItem.getName().charAt(0);
             recordGroupHolder.tvRecordName.setText(recordItem.getName());
-            //System.out.println(recordItem.getName()+" "+recordItem.getName().hashCode());
-            recordGroupHolder.ivAvatarSim.setVisibility(View.GONE);
-            recordGroupHolder.tvAvatarName.setVisibility(View.VISIBLE);
-            recordGroupHolder.tvAvatarName.setText(""+recordItem.getName().charAt(0));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                recordGroupHolder.ivRecordIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(ColorUtils.getColor(recordItem.getName().hashCode()))));
-            }
         }
         else {
             recordGroupHolder.tvPhoneNum.setVisibility(View.GONE);
@@ -250,12 +269,6 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                 recordGroupHolder.tvRecordName.setText(DateTools.getNumberFormat(recordItem.getNumber()));
             }else{
                 recordGroupHolder.tvRecordName.setText("未知");
-            }
-            recordGroupHolder.ivAvatarSim.setVisibility(View.VISIBLE);
-            recordGroupHolder.tvAvatarName.setVisibility(View.GONE);
-            //System.out.println(recordItem.getNumber()+" "+recordItem.getNumber().hashCode());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                recordGroupHolder.ivRecordIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(ColorUtils.getColor(recordItem.getNumber().hashCode()))));
             }
         }
         recordGroupHolder.llRecordType.removeAllViews();
@@ -369,12 +382,13 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     class RecordGroupHolder{
         public View vRecordDivide;
-        public ImageView ivRecordIcon, ivAvatarSim;
-        public TextView tvRecordName, tvCallBack, tvDelete, tvPhoneNum, tvAddress, tvAddBlacknumber;
-        public TextView tvRecordDate, tvAvatarName;
+        public TextView tvRecordName, tvCallBack, tvDelete, tvAddContact,
+                tvPhoneNum, tvAddress, tvAddBlacknumber;
+        public TextView tvRecordDate;
         public LinearLayout llBackground;
         public LinearLayout llRecordType;
         public LinearLayout llChoose;
+        public AvatarViewGroup mAvatarViewGroup;
     }
 
     class RecordChildHolder{
