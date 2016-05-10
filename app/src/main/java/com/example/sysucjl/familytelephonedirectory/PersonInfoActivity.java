@@ -249,6 +249,8 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
             protected void onPostExecute(ContactItem contactItem) {
                 mPhones = contactItem.getmPhones();
                 if(mPhones != null) {
+                    cvContactInfo.setVisibility(View.VISIBLE);
+                    cvWedther.setVisibility(View.VISIBLE);
                     for (String phone : mPhones.keySet()) {
                         System.out.println(phone);
                         mPhonesList.add(phone);
@@ -266,6 +268,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
                 }
                 mEmails = contactItem.getmEmails();
                 if(mEmails != null){
+                    cvContactInfo.setVisibility(View.VISIBLE);
                     for(String email : mEmails.keySet()){
                         mEmailList.add(email);
                         System.out.println("取回邮箱："+email);

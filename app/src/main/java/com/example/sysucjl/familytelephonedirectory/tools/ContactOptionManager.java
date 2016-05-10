@@ -101,6 +101,7 @@ public class ContactOptionManager {
         if (!cursor.moveToFirst()) {//moveToFirst定位到第一行
             return null;
         }
+        int familyCount = 0;
         do {
             // 获得联系人的ID：String类型  列名-->列数-->列内容
             contactId = cursor.getString(cursor.getColumnIndex(ID));
@@ -120,6 +121,18 @@ public class ContactOptionManager {
                 item.setmContactId(contactId);
                 item.setmPhoneCount(phoneCount);
                 friendList.add(item);
+                if(displayName.matches("爸爸|妈妈|哥哥|姐姐|弟弟|妹妹|叔叔|阿姨|舅舅|舅妈|姑姑|姑丈|爷爷|奶奶")) {
+                    ContactItem contactItem = new ContactItem(displayName);
+                    contactItem.setmContactId(contactId);
+                    contactItem.setmPhoneCount(phoneCount);
+                    if (avatar_uri != null) {
+                        contactItem.setmAvatar(avatar_uri);
+                        //System.out.println("头像:"+avatar_uri);
+                    }
+                    contactItem.setmSection("家");
+                    friendList.add(familyCount, contactItem);
+                    familyCount++;
+                }
             }
         } while (cursor.moveToNext());
         return friendList;

@@ -93,57 +93,59 @@ public class PersonFragment extends Fragment{
         String lastSortLetter = "A";
         boolean continute = true;
         for(int i = 0; i < mContactItems.size(); i++){
-            continute = true;
-            char firstLetter = mContactItems.get(i).getName().charAt(0);
-            if(firstLetter > 128) {
-                System.out.println("mContactItems.get(i).getName().charAt(0)" + mContactItems.get(i).getName().charAt(0));
-                try {
-                    String[] result = PinyinHelper.toHanyuPinyinStringArray(mContactItems.get(i).getName().charAt(0), defaultFormat);
-                    if (result != null) {
-                        if(result.length == 1){
-                            sortLetter = result[0].substring(0,1);
-                            //System.out.println(sortLetter);
-                        }else {
-                            if (result.length > 1) {
-                                for (String tmp : result) {
-                                    if (tmp.equals(lastSortLetter)) {
-                                        sortLetter = tmp.substring(0, 1);
-                                        continute = false;
-                                        break;
-                                    }
-                                }
-                                if(continute){
-                                    for(String tmp : result){
-                                        if(tmp.compareTo(lastSortLetter) == 1){
+            if(mContactItems.get(i).getmSection() == null) {
+                continute = true;
+                char firstLetter = mContactItems.get(i).getName().charAt(0);
+                if (firstLetter > 128) {
+                    System.out.println("mContactItems.get(i).getName().charAt(0)" + mContactItems.get(i).getName().charAt(0));
+                    try {
+                        String[] result = PinyinHelper.toHanyuPinyinStringArray(mContactItems.get(i).getName().charAt(0), defaultFormat);
+                        if (result != null) {
+                            if (result.length == 1) {
+                                sortLetter = result[0].substring(0, 1);
+                                //System.out.println(sortLetter);
+                            } else {
+                                if (result.length > 1) {
+                                    for (String tmp : result) {
+                                        if (tmp.equals(lastSortLetter)) {
                                             sortLetter = tmp.substring(0, 1);
+                                            continute = false;
                                             break;
+                                        }
+                                    }
+                                    if (continute) {
+                                        for (String tmp : result) {
+                                            if (tmp.compareTo(lastSortLetter) == 1) {
+                                                sortLetter = tmp.substring(0, 1);
+                                                break;
+                                            }
                                         }
                                     }
                                 }
                             }
+                        } else {
+                            System.out.println("result is null");
                         }
-                    } else {
-                        System.out.println("result is null");
+                    } catch (BadHanyuPinyinOutputFormatCombination badHanyuPinyinOutputFormatCombination) {
+                        badHanyuPinyinOutputFormatCombination.printStackTrace();
                     }
-                } catch (BadHanyuPinyinOutputFormatCombination badHanyuPinyinOutputFormatCombination) {
-                    badHanyuPinyinOutputFormatCombination.printStackTrace();
+                } else {
+                    //System.out.println("不是汉字");
+                    if (firstLetter >= 'a' && firstLetter <= 'z') {
+                        sortLetter = String.valueOf((char) (firstLetter - 'a' + 'A'));
+                    } else {
+                        sortLetter = String.valueOf(firstLetter);
+                    }
                 }
-            }else{
-                //System.out.println("不是汉字");
-                if(firstLetter >= 'a' && firstLetter <= 'z'){
-                    sortLetter = String.valueOf((char) (firstLetter - 'a' + 'A'));
-                }else{
-                    sortLetter = String.valueOf(firstLetter);
+                mContactItems.get(i).setmPinYin(pinyin);
+                //System.out.println(pinyin);
+                //System.out.println(sortLetter);
+                lastSortLetter = sortLetter;
+                if (sortLetter.matches("[A-Z]")) {
+                    mContactItems.get(i).setmSection(sortLetter);
+                } else {
+                    mContactItems.get(i).setmSection("#");
                 }
-            }
-            mContactItems.get(i).setmPinYin(pinyin);
-            //System.out.println(pinyin);
-            //System.out.println(sortLetter);
-            lastSortLetter = sortLetter;
-            if(sortLetter.matches("[A-Z]")){
-                mContactItems.get(i).setmSection(sortLetter);
-            }else{
-                mContactItems.get(i).setmSection("#");
             }
         }
         mAdapter = new PersonViewAdapter(mContactItems, getContext());
