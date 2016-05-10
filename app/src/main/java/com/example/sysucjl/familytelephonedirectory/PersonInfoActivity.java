@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -114,7 +115,10 @@ public class PersonInfoActivity extends AppCompatActivity {
                     WeatherInfo response = (WeatherInfo) msg.obj;
                     // 在这里进行UI操作，将结果显示到界面上
                     //  textView.setText(response);
-                    String s = response.cityName + "  " + response.date + "   " + response.curTem + "   " + response.weather;
+                    String s = response.cityName + "\n"
+                            + response.date + "\n"
+                            + response.curTem + "\n"
+                            + response.weather;
                     weather.setText(s);
                     Resources res = getResources();
                     int imageid = res.getIdentifier("c"+response.gif1, "drawable", getPackageName());
@@ -149,7 +153,14 @@ public class PersonInfoActivity extends AppCompatActivity {
 
         //定义控件
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         cvContactInfo = (CardView) findViewById(R.id.cv_contact_info);
 
@@ -272,27 +283,22 @@ public class PersonInfoActivity extends AppCompatActivity {
 
     private void setAvatar(){
         if(mContactAvatar != null) {
+            System.out.println("设置头像："+mContactAvatar);
             ivBackDrop.setMinimumHeight(mScreenWidth);
             ivBlurImage.setMinimumHeight(mScreenWidth);
             Picasso.with(this)
                     .load(mContactAvatar)
-                    .resize(mScreenWidth, mScreenWidth)
-                    .skipMemoryCache()
-                    .into(new Target() {
+                    .into(ivBackDrop, new com.squareup.picasso.Callback() {
                         @Override
-                        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-
+                        public void onSuccess() {
+                            System.out.println("设置头像成功了");
+                            /*Drawable drawable = ivBackDrop.getDrawable();
+                            Bitmap bitmap = ivBackDrop.getDrawingCache();
+                            System.out.println("从imageview中获得图片："+bitmap.getWidth()+" "+bitmap.getWidth());
                             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
                                     Palette.Swatch vibrant = palette.getMutedSwatch();
-
-                                    try {
-                                        Thread.sleep(300);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-
                                     if (vibrant != null) {
                                         mColor = vibrant.getRgb();
                                         setColor();
@@ -304,9 +310,59 @@ public class PersonInfoActivity extends AppCompatActivity {
                                     } else {
                                         System.out.println("vibrant is null");
                                     }
-                                    ivBackDrop.setImageBitmap(bitmap);
+                                    //ivBackDrop.setImageBitmap(bitmap);
                                 }
                             });
+
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                GetBlurImage getBlurImage = new GetBlurImage(PersonInfoActivity.this) {
+                                    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                                    @Override
+                                    protected void onPostExecute(Bitmap bitmap) {
+                                        ivBlurImage.setImageBitmap(bitmap);
+                                        ivBlurImage.setImageAlpha(0);
+                                        mToolbarLayout.setContentScrimColor(Color.parseColor("#30000000"));
+                                        //mToolbarLayout.setContentScrim(new BitmapDrawable(bitmap));
+                                    }
+                                };
+                                getBlurImage.execute(bitmap);
+                            }*/
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+
+            Picasso.with(this)
+                    .load(mContactAvatar)
+                    //.resize(mScreenWidth, mScreenWidth)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                            System.out.println("头像下载完成："+bitmap.getWidth()+" " + bitmap.getHeight());
+
+                            Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    Palette.Swatch vibrant = palette.getMutedSwatch();
+                                    if (vibrant != null) {
+                                        mColor = vibrant.getRgb();
+                                        setColor();
+                                        System.out.println("vibrant:" + mColor);
+                                        if (mPhonesListAdapter != null)
+                                            mPhonesListAdapter.setmColor(mColor);
+                                        if(mEmailsListAdapter != null)
+                                            mEmailsListAdapter.setmColor(mColor);
+                                    } else {
+                                        System.out.println("vibrant is null");
+                                    }
+                                    //ivBackDrop.setImageBitmap(bitmap);
+                                }
+                            });
+
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                                 GetBlurImage getBlurImage = new GetBlurImage(PersonInfoActivity.this) {
                                     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -324,7 +380,7 @@ public class PersonInfoActivity extends AppCompatActivity {
 
                         @Override
                         public void onBitmapFailed(Drawable errorDrawable) {
-
+                            System.out.println("设置头像失败");
                         }
 
                         @Override
@@ -333,6 +389,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                         }
                     });
         }else{
+            System.out.println("头像为空");
             ivBlurImage.setVisibility(View.GONE);
         }
     }
@@ -451,6 +508,7 @@ public class PersonInfoActivity extends AppCompatActivity {
         mToolbarLayout.setBackgroundColor(mColor);
         mToolbarLayout.setContentScrimColor(mColor);
         btnSentMessage.setBackgroundColor(mColor);
+        btnBlacklist.setBackgroundColor(mColor);
     }
 
     private void sentCareSMS(WeatherInfo weatherInfo1){
@@ -559,5 +617,18 @@ public class PersonInfoActivity extends AppCompatActivity {
                 break;
         }
         return true;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString(PHOTO_URI, mContactAvatar);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mContactAvatar = savedInstanceState.getString(PHOTO_URI);
     }
 }

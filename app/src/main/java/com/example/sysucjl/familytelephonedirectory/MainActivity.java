@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -210,7 +211,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onDestroy(){
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //android.os.Process.killProcess(android.os.Process.myPid());
         super.onDestroy();
     }
 
