@@ -26,11 +26,13 @@ import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordSegment;
 import com.example.sysucjl.familytelephonedirectory.data.SerializableMap;
 import com.example.sysucjl.familytelephonedirectory.tools.BlackListOptionManager;
+import com.example.sysucjl.familytelephonedirectory.tools.ScreenTools;
 import com.example.sysucjl.familytelephonedirectory.utils.ColorUtils;
 import com.example.sysucjl.familytelephonedirectory.tools.ContactOptionManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DBManager;
 import com.example.sysucjl.familytelephonedirectory.tools.DateTools;
 import com.example.sysucjl.familytelephonedirectory.utils.TypeUtils;
+import com.example.sysucjl.familytelephonedirectory.view.AvatarViewGroup;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,11 +47,13 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     private Context mContext;
     private List<RecordItem> mRecordItems;
+    private int mAvatarSize;
 
     public RecordExpandAdapter(Context context, List<RecordItem> recordItems){
         this.mContext = context;
         this.mRecordItems = recordItems;
         mContext.getContentResolver().registerContentObserver(CallLog.Calls.CONTENT_URI, true,new recordObserver(new Handler(),mContext,0));
+        mAvatarSize = ScreenTools.dip2px(40, mContext);
     }
 
     @Override
@@ -106,7 +110,6 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
         if(convertView == null){
             recordGroupHolder = new RecordGroupHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.list_record_item, parent, false);
-            recordGroupHolder.ivRecordIcon = (ImageView) convertView.findViewById(R.id.iv_record_icon);
             recordGroupHolder.tvRecordName = (TextView) convertView.findViewById(R.id.tv_record_name);
             recordGroupHolder.tvRecordDate = (TextView) convertView.findViewById(R.id.tv_record_date);
             recordGroupHolder.llBackground = (LinearLayout) convertView.findViewById(R.id.ll_background);
@@ -115,17 +118,19 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
             recordGroupHolder.llChoose = (LinearLayout) convertView.findViewById(R.id.ll_choose);
             recordGroupHolder.tvCallBack = (TextView) convertView.findViewById(R.id.tv_callback);
             recordGroupHolder.tvDelete = (TextView) convertView.findViewById(R.id.tv_delete);
-            recordGroupHolder.tvAvatarName = (TextView) convertView.findViewById(R.id.tv_avatar_name);
-            recordGroupHolder.ivAvatarSim = (ImageView) convertView.findViewById(R.id.img_avatar_sim);
             recordGroupHolder.tvPhoneNum = (TextView) convertView.findViewById(R.id.tv_phonenum);
             recordGroupHolder.tvAddress = (TextView) convertView.findViewById(R.id.tv_record_address);
             recordGroupHolder.tvAddBlacknumber = (TextView) convertView.findViewById(R.id.tv_add_blacknumber);
             recordGroupHolder.tvAddContact = (TextView) convertView.findViewById(R.id.tv_add_contact);
+            recordGroupHolder.mAvatarViewGroup = (AvatarViewGroup) convertView.findViewById(R.id.avatar_group_view);
             convertView.setTag(recordGroupHolder);
         }else{
             recordGroupHolder = (RecordGroupHolder) convertView.getTag();
         }
         final RecordItem recordItem = mRecordItems.get(groupPosition);
+
+        recordGroupHolder.mAvatarViewGroup.setRecord(recordItem, mAvatarSize);
+
         //address----------------------------------------------------
         DBManager dbHelper;
         dbHelper=DBManager.getInstance(mContext);
@@ -257,13 +262,6 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
         if(!TextUtils.isEmpty(recordItem.getName())) {
             char c = recordItem.getName().charAt(0);
             recordGroupHolder.tvRecordName.setText(recordItem.getName());
-            //System.out.println(recordItem.getName()+" "+recordItem.getName().hashCode());
-            recordGroupHolder.ivAvatarSim.setVisibility(View.GONE);
-            recordGroupHolder.tvAvatarName.setVisibility(View.VISIBLE);
-            recordGroupHolder.tvAvatarName.setText(""+recordItem.getName().charAt(0));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                recordGroupHolder.ivRecordIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(ColorUtils.getColor(recordItem.getName().hashCode()))));
-            }
         }
         else {
             recordGroupHolder.tvPhoneNum.setVisibility(View.GONE);
@@ -271,12 +269,6 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                 recordGroupHolder.tvRecordName.setText(DateTools.getNumberFormat(recordItem.getNumber()));
             }else{
                 recordGroupHolder.tvRecordName.setText("未知");
-            }
-            recordGroupHolder.ivAvatarSim.setVisibility(View.VISIBLE);
-            recordGroupHolder.tvAvatarName.setVisibility(View.GONE);
-            //System.out.println(recordItem.getNumber()+" "+recordItem.getNumber().hashCode());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                recordGroupHolder.ivRecordIcon.setImageTintList(ColorStateList.valueOf(Color.parseColor(ColorUtils.getColor(recordItem.getNumber().hashCode()))));
             }
         }
         recordGroupHolder.llRecordType.removeAllViews();
@@ -390,13 +382,13 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
     class RecordGroupHolder{
         public View vRecordDivide;
-        public ImageView ivRecordIcon, ivAvatarSim;
         public TextView tvRecordName, tvCallBack, tvDelete, tvAddContact,
                 tvPhoneNum, tvAddress, tvAddBlacknumber;
-        public TextView tvRecordDate, tvAvatarName;
+        public TextView tvRecordDate;
         public LinearLayout llBackground;
         public LinearLayout llRecordType;
         public LinearLayout llChoose;
+        public AvatarViewGroup mAvatarViewGroup;
     }
 
     class RecordChildHolder{

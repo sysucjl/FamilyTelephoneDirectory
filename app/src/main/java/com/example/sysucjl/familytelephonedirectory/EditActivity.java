@@ -364,6 +364,7 @@ public class EditActivity extends AppCompatActivity{
             values.put(ContactsContract.CommonDataKinds.Photo.PHOTO, avatar);
             getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
         }
+        sendBroadcast(new Intent());
         finish();
     }
 
@@ -457,6 +458,7 @@ public class EditActivity extends AppCompatActivity{
         switch (requestCode){
             case REQUEST_CAMERA:
                 sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpFile)));
+                //Intent.ACTION
                 startPhotoZoom(Uri.fromFile(mTmpFile));
                 break;
             case REQUEST_PICTURE:
