@@ -186,7 +186,7 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
                                         tool.deleteRecordById(mContext,recordItem.getRecordSegments().get(i).getId());
                                     }
                                     mRecordItems.remove(groupPosition);
-                                    mAdapterListener.myNotifyDataSetChanged(groupPosition);
+                                    //mAdapterListener.myNotifyDataSetChanged(groupPosition);
 
                                     sDialog.setTitleText("已删除!")
                                             .setContentText("该组通话记录已被删除!")
@@ -409,13 +409,18 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
 
         @Override
         public void onChange(boolean selfChange) {
-            Toast.makeText(myContext,"database has changed!",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(myContext,"database has changed!",Toast.LENGTH_SHORT).show();
             super.onChange(selfChange);
-            ContactOptionManager contactOptionManager = new ContactOptionManager();
-            mRecordItems = contactOptionManager.getCallLog(myContext);
-            mAdapterListener.myNotifyDataSetChanged(position);
-            mAdapterListener.expandGroup(position);
-            mAdapterListener.collapseGroup(position);
+            Runnable update = new Runnable() {
+                @Override
+                public void run() {
+                    ContactOptionManager contactOptionManager = new ContactOptionManager();
+                    mRecordItems = contactOptionManager.getCallLog(myContext);
+                    mAdapterListener.myNotifyDataSetChanged(position);
+                }
+            };
+            Handler handler = new Handler();
+            handler.post(update);
             myContext.getContentResolver().unregisterContentObserver(this);
         }
     }

@@ -121,7 +121,7 @@ public class PersonViewAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onChange(boolean selfChange) {
-            Toast.makeText(myContext, "contact database has changed!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(myContext, "contact database has changed!", Toast.LENGTH_SHORT).show();
             super.onChange(selfChange);
             ContactOptionManager contactOptionManager = new ContactOptionManager();
             mPersons = contactOptionManager.getBriefContactInfor(myContext);
