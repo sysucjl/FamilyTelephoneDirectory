@@ -76,6 +76,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_contact_info"
                 style="@style/ContactInfoCarviewStyle"
+                android:visibility="gone"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -105,6 +106,7 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_wedther"
+                android:visibility="gone"
                 style="@style/ContactInfoCarviewStyle">
                 <LinearLayout
                     android:layout_width="match_parent"

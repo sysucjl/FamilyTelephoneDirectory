@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.sysucjl.familytelephonedirectory.EditActivity;
@@ -61,6 +62,7 @@ public class ContactInfoAdapter extends ArrayAdapter<String> {
             phoneListHolder.tvLocation = (TextView) convertView.findViewById(R.id.tv_location);
             phoneListHolder.ivIcon = (ImageView) convertView.findViewById(R.id.iv_icon);
             phoneListHolder.tvType = (TextView) convertView.findViewById(R.id.tv_type);
+            phoneListHolder.rlContactBackground = (RelativeLayout) convertView.findViewById(R.id.rl_contactinfo_background);
             convertView.setTag(phoneListHolder);
         }else{
             phoneListHolder = (PhoneListHolder) convertView.getTag();
@@ -106,7 +108,7 @@ public class ContactInfoAdapter extends ArrayAdapter<String> {
                 }
             });
 
-            phoneListHolder.tvData.setOnClickListener(new View.OnClickListener() {
+            phoneListHolder.rlContactBackground.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -143,5 +145,6 @@ public class ContactInfoAdapter extends ArrayAdapter<String> {
         public ImageView ivIcon;
         public ImageButton ivbtnSetMessage;
         public TextView tvData, tvLocation, tvType;
+        public RelativeLayout rlContactBackground;
     }
 }
