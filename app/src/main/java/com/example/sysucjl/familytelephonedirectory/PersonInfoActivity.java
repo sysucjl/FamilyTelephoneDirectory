@@ -59,7 +59,7 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class PersonInfoActivity extends AppCompatActivity {
+public class PersonInfoActivity extends AppCompatActivity implements View.OnClickListener{
 
     public final static String PHOTO_URI = "photo_uri";
     public final static String CONTACT_NAME = "contact_name";
@@ -69,15 +69,15 @@ public class PersonInfoActivity extends AppCompatActivity {
     private ImageView ivBackDrop;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mToolbarLayout;
-    private Button btnSentMessage;
-    private Button btnBlacklist;
+    private TextView btnSentMessage;
+    //private Button btnBlacklist;
     private View vStatusBar;
     private PhoneListAdapter mAdapter;
     DBManager dbHelper;
 
     private int mColor;
     private ImageView ivBlurImage;
-    private CardView cvContactInfo;
+    private CardView cvContactInfo, cvWedther;
 
     private int mScreenWidth;
 
@@ -94,15 +94,18 @@ public class PersonInfoActivity extends AppCompatActivity {
     private ListView lvEmailList;
     private AppBarLayout applAppBarLayout;
 
+
     private String mContactId, mContactName, mContactAvatar;
 
+    private TextView tvEdit, tvDelete, tvBlackList;
+
     /*  显示天气部分 */
-    private TextView weather;
+    private TextView weather, tvWedtherTitle;
     private ImageView weather1;
     private ImageView weather2;
     private ImageView arrow;
     private WeatherInfo weatherInfo;
-    private LinearLayout llwedther;
+    private LinearLayout llwedtherIconBackground;
     private CityInfo cityInfo;
     private boolean isWeatherDone = false;
     public static final int SHOW_RESPONSE = 0;
@@ -130,11 +133,11 @@ public class PersonInfoActivity extends AppCompatActivity {
                     isWeatherDone = true;
                     break;
                 case NO_CITY:
+                    cvWedther.setVisibility(View.GONE);
                     weather.setText("天气");
             }
         }
     };
-    Button sentMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,9 +150,7 @@ public class PersonInfoActivity extends AppCompatActivity {
         mContactAvatar = intent.getStringExtra(PHOTO_URI);
         mContactName = personName;
         mContactId = intent.getStringExtra(CONTACT_ID);
-
-        int color = intent.getIntExtra(CONTACT_COLOR, 0);
-        mColor = color;
+        mColor = intent.getIntExtra(CONTACT_COLOR, 0);
 
         //定义控件
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -162,20 +163,23 @@ public class PersonInfoActivity extends AppCompatActivity {
             }
         });
 
-        cvContactInfo = (CardView) findViewById(R.id.cv_contact_info);
+        tvWedtherTitle = (TextView) findViewById(R.id.tv_wedther_title);
+        cvWedther = (CardView) findViewById(R.id.cv_wedther);
 
+        llwedtherIconBackground = (LinearLayout) findViewById(R.id.ll_wedther_icon_background);
+        cvContactInfo = (CardView) findViewById(R.id.cv_contact_info);
         ivBackDrop = (ImageView) findViewById(R.id.iv_backdrop);
-        ivBackDrop.setBackgroundColor(color);
         ivBlurImage = (ImageView) findViewById(R.id.iv_blur_image);
         mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mToolbarLayout.setBackgroundColor(color);
-        mToolbarLayout.setContentScrimColor(color);
         mToolbarLayout.setTitle(personName);
-        btnSentMessage = (Button) findViewById(R.id.btn_sent_mesage);
-        btnSentMessage.setBackgroundColor(color);
-        btnBlacklist = (Button)findViewById(R.id.btn_blacklist);
-        btnBlacklist.setBackgroundColor(color);
-        llwedther = (LinearLayout) findViewById(R.id.ll_wedther);
+        btnSentMessage = (TextView) findViewById(R.id.btn_sent_mesage);
+        tvBlackList = (TextView) findViewById(R.id.btn_blacklist);
+
+        tvEdit = (TextView) findViewById(R.id.tv_edit);
+        tvEdit.setOnClickListener(this);
+        tvDelete = (TextView) findViewById(R.id.tv_delete);
+        tvDelete.setOnClickListener(this);
+        tvBlackList = (TextView) findViewById(R.id.tv_blacklist);
 
         mScreenWidth = ScreenTools.getScreenWidth(this);
 
@@ -194,6 +198,7 @@ public class PersonInfoActivity extends AppCompatActivity {
             }
         });
 
+        setColor();
         setAvatar();
 
         btnSentMessage.setOnClickListener(new View.OnClickListener() {
@@ -222,8 +227,8 @@ public class PersonInfoActivity extends AppCompatActivity {
         }
 
         //发送关怀短信
-        sentMessage = (Button)findViewById(R.id.btn_sent_mesage);
-        sentMessage.setOnClickListener(new View.OnClickListener() {
+        btnSentMessage = (TextView)findViewById(R.id.btn_sent_mesage);
+        btnSentMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isWeatherDone)
@@ -256,7 +261,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                     sendRequestWithHttpURLConnection();
                     handleBackList();
                 }else{
-                    llwedther.setVisibility(View.GONE);
+                    cvWedther.setVisibility(View.GONE);
                     lvPhonesList.setVisibility(View.GONE);
                 }
                 mEmails = contactItem.getmEmails();
@@ -292,23 +297,9 @@ public class PersonInfoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess() {
                             System.out.println("设置头像成功了");
-                        }
 
-                        @Override
-                        public void onError() {
-
-                        }
-                    });
-
-            Picasso.with(this)
-                    .load(mContactAvatar)
-                    //.resize(mScreenWidth, mScreenWidth)
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
-
-                            System.out.println("头像下载完成："+bitmap.getWidth()+" " + bitmap.getHeight());
-
+                            BitmapDrawable bitmapDrawable = (BitmapDrawable) ivBackDrop.getDrawable();
+                            Bitmap bitmap = bitmapDrawable.getBitmap();
                             Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette palette) {
@@ -344,12 +335,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            System.out.println("设置头像失败");
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        public void onError() {
 
                         }
                     });
@@ -371,13 +357,13 @@ public class PersonInfoActivity extends AppCompatActivity {
             }
         }
         if(is_all_in_blacklist){
-            btnBlacklist.setText("移出黑名单");
+            tvBlackList.setText("移出黑名单");
         }
         else{
-            btnBlacklist.setText("加入黑名单");
+            tvBlackList.setText("加入黑名单");
         }
         final boolean[] out_or_in_blacklist = {is_all_in_blacklist};
-        btnBlacklist.setOnClickListener(new View.OnClickListener() {
+        tvBlackList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -403,7 +389,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                                             .setCancelClickListener(null)
                                             .setConfirmClickListener(null)
                                             .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                    btnBlacklist.setText("加入黑名单");
+                                    tvBlackList.setText("加入黑名单");
                                     out_or_in_blacklist[0] = !out_or_in_blacklist[0];
                                 }
                             }).show();
@@ -458,7 +444,7 @@ public class PersonInfoActivity extends AppCompatActivity {
                                                 }
                                             })
                                             .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                    btnBlacklist.setText("移出黑名单");
+                                    tvBlackList.setText("移出黑名单");
                                     out_or_in_blacklist[0] = !out_or_in_blacklist[0];
                                 }
                             }).show();
@@ -472,8 +458,13 @@ public class PersonInfoActivity extends AppCompatActivity {
         ivBackDrop.setBackgroundColor(mColor);
         mToolbarLayout.setBackgroundColor(mColor);
         mToolbarLayout.setContentScrimColor(mColor);
-        btnSentMessage.setBackgroundColor(mColor);
-        btnBlacklist.setBackgroundColor(mColor);
+        btnSentMessage.setTextColor(mColor);
+        tvBlackList.setTextColor(mColor);
+        //llwedtherIconBackground.setBackgroundColor(mColor);
+        tvWedtherTitle.setTextColor(mColor);
+        tvBlackList.setTextColor(mColor);
+        tvDelete.setTextColor(mColor);
+        tvEdit.setTextColor(mColor);
     }
 
     private void sentCareSMS(WeatherInfo weatherInfo1){
@@ -553,9 +544,28 @@ public class PersonInfoActivity extends AppCompatActivity {
         }).start();
     }
 
+    private void editContact(){
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra(EditActivity.TAG, EditActivity.TAG_EDIT);
+        intent.putExtra(EditActivity.PHOTO_URI, mContactAvatar);
+        intent.putExtra(EditActivity.CONTACT_NAME, mContactName);
+        intent.putExtra(EditActivity.CONTACT_ID, mContactId);
+        if(mPhones != null){
+            SerializableMap serializableMap = new SerializableMap();
+            serializableMap.setMap(mPhones);
+            intent.putExtra(EditActivity.MAP_PHONES, serializableMap);
+        }
+        if(mEmails != null){
+            SerializableMap aserializableMap = new SerializableMap();
+            aserializableMap.setMap(mEmails);
+            intent.putExtra(EditActivity.MAP_EMAILS, aserializableMap);
+        }
+        startActivity(intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_edit, menu);
+        //getMenuInflater().inflate(R.menu.menu_edit, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -595,5 +605,16 @@ public class PersonInfoActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mContactAvatar = savedInstanceState.getString(PHOTO_URI);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tv_edit:
+                editContact();
+                break;
+            case R.id.tv_delete:
+                break;
+        }
     }
 }
