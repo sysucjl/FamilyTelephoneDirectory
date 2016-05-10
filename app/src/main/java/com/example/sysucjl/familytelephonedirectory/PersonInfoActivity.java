@@ -241,7 +241,8 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
         });
 
         if(intent.getStringExtra("tab_name").equals("contact")) {
-            getContactInfo();
+            if(mContactId != null)
+                getContactInfo();
         }
     }
 

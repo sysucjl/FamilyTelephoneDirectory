@@ -91,18 +91,20 @@ public class AvatarViewGroup extends FrameLayout{
                 rvAvatarBackground.setColor(contact.getmColor());
             }
         }
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(mContext, PersonInfoActivity.class);
-                intent.putExtra("tab_name","contact");
-                intent.putExtra(PersonInfoActivity.CONTACT_ID, contact.getmContactId());
-                intent.putExtra(PersonInfoActivity.CONTACT_NAME, contact.getName());
-                intent.putExtra(PersonInfoActivity.PHOTO_URI, contact.getmAvatar());
-                intent.putExtra(PersonInfoActivity.CONTACT_COLOR, contact.getmColor());
-                mContext.startActivity(intent);
-            }
-        });
+        if(contact.getmContactId() != null) {
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(mContext, PersonInfoActivity.class);
+                    intent.putExtra("tab_name", "contact");
+                    intent.putExtra(PersonInfoActivity.CONTACT_ID, contact.getmContactId());
+                    intent.putExtra(PersonInfoActivity.CONTACT_NAME, contact.getName());
+                    intent.putExtra(PersonInfoActivity.PHOTO_URI, contact.getmAvatar());
+                    intent.putExtra(PersonInfoActivity.CONTACT_COLOR, contact.getmColor());
+                    mContext.startActivity(intent);
+                }
+            });
+        }
     }
 }

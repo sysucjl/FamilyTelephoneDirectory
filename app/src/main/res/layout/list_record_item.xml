@@ -19,32 +19,13 @@
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp">
-        <RelativeLayout
+
+        <com.example.sysucjl.familytelephonedirectory.view.AvatarViewGroup
+            android:id="@+id/avatar_group_view"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="25dp"
-            android:layout_marginRight="20dp">
-            <ImageView
-                android:id="@+id/iv_record_icon"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/ic_round_img"
-                android:tint="@color/colorPrimary"
-                />
-            <ImageView
-                android:id="@+id/img_avatar_sim"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_avatar_sim"/>
-            <TextView
-                android:id="@+id/tv_avatar_name"
-                android:layout_width="fill_parent"
-                android:textColor="@android:color/white"
-                android:textSize="20sp"
-                android:gravity="center"
-                android:layout_height="fill_parent" />
-        </RelativeLayout>
+            android:layout_marginRight="20dp"/>
 
         <LinearLayout
             android:id="@+id/main_message"
@@ -129,6 +110,17 @@
             android:textSize="12sp"
             android:textStyle="bold"
             android:text="删除"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/colorTextLight"
+            />
+
+        <TextView
+            android:id="@+id/tv_add_contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="添加联系人"
             android:layout_marginRight="15dp"
             android:textColor="@color/colorTextLight"
             />
