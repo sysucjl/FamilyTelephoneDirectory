@@ -318,6 +318,9 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
+        setColor();
+        //setAvatar();
+
         if(intent.getStringExtra("tab_name").equals("contact")) {
             if(mContactId != null)
                 getContactInfo();
@@ -329,9 +332,12 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
             @Override
             protected void onPostExecute(ContactItem contactItem) {
                 mPhones = contactItem.getmPhones();
+                mContactAvatar = contactItem.getmAvatar();
+                setAvatar();
                 if(mPhones != null) {
                     cvContactInfo.setVisibility(View.VISIBLE);
                     cvWedther.setVisibility(View.VISIBLE);
+                    mPhonesList.clear();
                     for (String phone : mPhones.keySet()) {
                         System.out.println(phone);
                         mPhonesList.add(phone);
@@ -349,6 +355,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
                 }
                 mEmails = contactItem.getmEmails();
                 if(mEmails != null){
+                    mEmailList.clear();
                     cvContactInfo.setVisibility(View.VISIBLE);
                     for(String email : mEmails.keySet()){
                         mEmailList.add(email);
@@ -735,7 +742,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     protected void onResume() {
         super.onResume();
         setColor();
-        setAvatar();
+        //setAvatar();
         if(mContactId != null)
             getContactInfo();
     }
