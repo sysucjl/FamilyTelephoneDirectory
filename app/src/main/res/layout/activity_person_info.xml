@@ -224,16 +224,20 @@
                                 >
                                 <EditText
                                     android:id="@+id/ed_message_to"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="17sp"
                                     android:hint="号码"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
                                     android:textColor="@color/colorTextLight"/>
                                 <EditText
                                     android:id="@+id/ed_message_content"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textSize="17sp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
                                     android:hint="短信内容"
                                     android:layout_marginTop="15dp"
                                     android:textColor="@color/colorTextLight"/>

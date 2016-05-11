@@ -21,7 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.sysucjl.familytelephonedirectory.EditActivity;
+import com.example.sysucjl.familytelephonedirectory.PersonInfoActivity;
 import com.example.sysucjl.familytelephonedirectory.R;
+import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordSegment;
 import com.example.sysucjl.familytelephonedirectory.data.SerializableMap;
@@ -130,7 +132,6 @@ public class RecordExpandAdapter extends BaseExpandableListAdapter {
         final RecordItem recordItem = mRecordItems.get(groupPosition);
 
         recordGroupHolder.mAvatarViewGroup.setRecord(recordItem, mAvatarSize);
-
         //address----------------------------------------------------
         DBManager dbHelper;
         dbHelper=DBManager.getInstance(mContext);

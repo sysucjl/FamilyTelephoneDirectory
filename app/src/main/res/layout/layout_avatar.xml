@@ -4,13 +4,6 @@
     android:id="@+id/fl_avatar_layout"
     android:layout_width="40dp"
     android:layout_height="40dp">
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/civ_avatar"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:src="@drawable/ic_round_img"
-        android:tint="@color/colorPrimary"
-        />
     <FrameLayout
         android:id="@+id/fl_avatar"
         android:layout_width="match_parent"
@@ -33,4 +26,11 @@
             android:gravity="center"
             android:layout_height="fill_parent" />
     </FrameLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/civ_avatar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/ic_round_img"
+        android:tint="@color/colorPrimary"
+        />
 </FrameLayout>
