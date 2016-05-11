@@ -518,7 +518,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void sentCareSMS(WeatherInfo weatherInfo1){
-        String phonenum = mAdapter.getItem(0);
+        String phonenum = mPhonesListAdapter.getItem(0);
         CareSMS careSMS = new CareSMS();
         String messageContent;
         messageContent = careSMS.getCareSMS(weatherInfo1);

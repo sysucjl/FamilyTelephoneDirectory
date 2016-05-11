@@ -31,10 +31,10 @@ public class CareSMS {
 
     public String getCareSMS(WeatherInfo weatherinfo /*String[] args*/) {
         //TEMP1 = Integer.parseInt(weatherinfo.)   //TEMP1 = Integer.parseInt(args[0]);
-        String tem = weatherinfo.curTem;
-        int a = 3;
-        int b = weatherinfo.curTem.length()-1;
-        String re = tem.substring(a, b);
+        String re = weatherinfo.curTem;
+        //int a = 3;
+        //int b = weatherinfo.curTem.length()-1;
+        //String re = tem.substring(a, b);
         TEMP2 = Integer.parseInt(re);  //TEMP2 = Integer.parseInt(args[1]);
         //WIND = Integer.parseInt(weatherinfo.wind); //WIND = Integer.parseInt(args[2]);
         weather = new String(weatherinfo.weather); //weather = new String(args[3]);
