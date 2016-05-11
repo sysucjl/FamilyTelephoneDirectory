@@ -20,8 +20,10 @@ public class QueryWeather {
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Content-Type", "application/soap+xml; charset=utf-8");
 
-        if (conn.getResponseCode() == 200)
+        if (conn.getResponseCode() == 200) {
+            System.out.println("获取天气成功");
             return parse(conn.getInputStream());
+        }
         return null;
     }
 
@@ -33,7 +35,6 @@ public class QueryWeather {
         StringBuilder response = new StringBuilder();
         String line;
 
-
         line = reader.readLine(); // 第1行，没用
         line = reader.readLine(); // 第2行，没用
         line = reader.readLine(); weatherInfo.cityName = getLineValue(line).replace(" ", "");  // 第3行，省份城市
@@ -42,7 +43,7 @@ public class QueryWeather {
         line = reader.readLine();
         // weatherInfo.date = getLineValue(line);  // 第6行，日期
         line = reader.readLine(); weatherInfo.liveWeather = getLineValue(line).substring(7);  // 第7行，天气实况
-        weatherInfo.curTem = line.substring(line.indexOf("气温："), line.indexOf("；")); // 提取当前气温
+        weatherInfo.curTem = line.substring(line.indexOf("气温：")+"气温：".length(), line.indexOf("℃")); // 提取当前气温
         line = reader.readLine(); // 第8行，没用
         line = reader.readLine(); weatherInfo.UVI = getLineValue(line);  // 第9行，紫外线指数
         line = reader.readLine(); weatherInfo.CI = line;  // 第10行，感冒指数

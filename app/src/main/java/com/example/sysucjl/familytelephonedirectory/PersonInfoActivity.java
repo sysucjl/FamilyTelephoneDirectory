@@ -28,10 +28,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,6 +104,13 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     private TextView tvEdit, tvDelete, tvBlackList;
 
     /*  显示天气部分 */
+    private TextView tvLocationTime, tvWeather, tvAir, tvWeatherRate, tvWeatherState;
+    private ProgressBar mProgressBar;
+    private ImageButton ibtnRefreshWeather;
+    private ImageView ivWeatherIcon;
+    private LinearLayout llWeatherInfo, llLoadingWeather;
+
+
     private TextView weather, tvWedtherTitle;
     private ImageView weather1;
     private ImageView weather2;
@@ -112,6 +121,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     private boolean isWeatherDone = false;
     public static final int SHOW_RESPONSE = 0;
     public static final int NO_CITY = 1;
+    public static final int FAIL_WEATHER = 2;
 
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -120,6 +130,11 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
                     WeatherInfo response = (WeatherInfo) msg.obj;
                     // 在这里进行UI操作，将结果显示到界面上
                     //  textView.setText(response);
+                    String locationAndTime = response.cityName+"  "+"更新时间："+response.date;
+                    tvLocationTime.setText(locationAndTime);
+                    tvWeatherRate.setText(response.curTem);
+                    tvWeather.setText("天气状况："+response.weather);
+                    tvAir.setText(response.API);
                     String s = response.cityName + "\n"
                             + response.date + "\n"
                             + response.curTem + "\n"
@@ -127,19 +142,30 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
                     weather.setText(s);
                     Resources res = getResources();
                     int imageid = res.getIdentifier("c"+response.gif1, "drawable", getPackageName());
+                    ivWeatherIcon.setImageResource(imageid);
+
                     weather1.setImageResource(imageid);
                     imageid = res.getIdentifier("c"+response.gif2, "drawable", getPackageName());
                     weather2.setImageResource(imageid);
                     arrow.setImageResource(R.drawable.arrow);
                     //weather2.setImageResource(R.drawable.a_3101);
+                    llWeatherInfo.setVisibility(View.VISIBLE);
+                    llLoadingWeather.setVisibility(View.GONE);
                     isWeatherDone = true;
                     break;
                 case NO_CITY:
                     cvWedther.setVisibility(View.GONE);
                     weather.setText("天气");
+                    break;
+                case FAIL_WEATHER:
+                    tvWeatherState.setText("获取天气失败");
+                    mProgressBar.setVisibility(View.GONE);
+                    ibtnRefreshWeather.setVisibility(View.VISIBLE);
+                    break;
             }
         }
     };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,6 +238,24 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
 
         dbHelper=new DBManager(this);
         dbHelper.createDataBase();
+
+        tvLocationTime = (TextView) findViewById(R.id.tv_location_time);
+        tvWeather = (TextView) findViewById(R.id.tv_weather);
+        tvAir = (TextView) findViewById(R.id.tv_air);
+        tvWeatherRate = (TextView) findViewById(R.id.tv_weather_rate);
+        ivWeatherIcon = (ImageView) findViewById(R.id.iv_weather_icon);
+        llWeatherInfo = (LinearLayout) findViewById(R.id.ll_weather_info);
+        llLoadingWeather = (LinearLayout) findViewById(R.id.ll_loading_weather);
+        ibtnRefreshWeather = (ImageButton) findViewById(R.id.ibtn_refresh_weather);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+        tvWeatherState = (TextView) findViewById(R.id.tv_weather_state);
+        ibtnRefreshWeather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequestWithHttpURLConnection();
+            }
+        });
+
 
         weather1 = (ImageView)findViewById(R.id.weather1);
         weather2 = (ImageView)findViewById(R.id.weather2);
@@ -474,7 +518,7 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void sentCareSMS(WeatherInfo weatherInfo1){
-        String phonenum = mAdapter.getItem(0);
+        String phonenum = mPhonesListAdapter.getItem(0);
         CareSMS careSMS = new CareSMS();
         String messageContent;
         messageContent = careSMS.getCareSMS(weatherInfo1);
@@ -530,14 +574,20 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
                         SharedPreferences pref = getSharedPreferences("city", MODE_PRIVATE);
                         String code = pref.getString(city, "");
                         QueryWeather xmlser = new QueryWeather();
-                        weatherInfo = xmlser.query(code);
-                        //Log.i("tag",res);
-                        //Result.setText(res);
-                        Message message = new Message();
-                        message.what = SHOW_RESPONSE;
-                        // 将服务器返回的结果存放到Message中
-                        message.obj = weatherInfo;
-                        handler.sendMessage(message);
+                        if(xmlser == null){
+                            Message message = new Message();
+                            message.what = FAIL_WEATHER;
+                            handler.sendMessage(message);
+                        }else {
+                            weatherInfo = xmlser.query(code);
+                            //Log.i("tag",res);
+                            //Result.setText(res);
+                            Message message = new Message();
+                            message.what = SHOW_RESPONSE;
+                            // 将服务器返回的结果存放到Message中
+                            message.obj = weatherInfo;
+                            handler.sendMessage(message);
+                        }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

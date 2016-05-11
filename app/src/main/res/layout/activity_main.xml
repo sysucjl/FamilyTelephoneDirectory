@@ -50,7 +50,9 @@
             android:layout_height="56dp"
             android:layout_margin="@dimen/fab_margin"
             android:layout_centerHorizontal="true"
+            app:rippleColor="@color/colorPrimary"
             android:src="@drawable/ic_phone"
+            app:backgroundTint="@color/colorPrimary"
             android:tint="@android:color/white"/>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
