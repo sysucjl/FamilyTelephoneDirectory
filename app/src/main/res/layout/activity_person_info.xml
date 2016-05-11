@@ -213,6 +213,55 @@
                                 android:background="@drawable/selector_add_button"
                                 android:text="发送关怀短信"
                                 android:textSize="15sp"/>
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:id="@+id/ll_send_message"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:paddingLeft="25dp"
+                                android:paddingRight="25dp"
+                                >
+                                <EditText
+                                    android:id="@+id/ed_message_to"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="17sp"
+                                    android:hint="号码"
+                                    android:textColor="@color/colorTextLight"/>
+                                <EditText
+                                    android:id="@+id/ed_message_content"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="17sp"
+                                    android:hint="短信内容"
+                                    android:layout_marginTop="15dp"
+                                    android:textColor="@color/colorTextLight"/>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_marginTop="15dp">
+                                    <TextView
+                                        android:gravity="center"
+                                        android:id="@+id/tv_cancle_send"
+                                        android:layout_weight="1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="取消"
+                                        android:padding="15dp"
+                                        android:background="@drawable/selector_add_button"/>
+                                    <TextView
+                                        android:gravity="center"
+                                        android:padding="15dp"
+                                        android:id="@+id/tv_send_message"
+                                        android:layout_weight="1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/selector_add_button"
+                                        android:text="发送"/>
+                                </LinearLayout>
+                            </LinearLayout>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/ll_loading_weather"

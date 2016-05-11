@@ -38,7 +38,7 @@
             <ImageButton
                 android:id="@+id/ibtn_clear_avatar"
                 android:layout_margin="10dp"
-                android:src="@drawable/abc_ic_clear_material"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
                 android:background="@android:color/transparent"
                 android:layout_width="50dp"
                 android:layout_gravity="top|right"

@@ -202,6 +202,8 @@ public class DBManager extends SQLiteOpenHelper {
     public String getResult(String num) throws Exception {
         //DBManager dbHelper2=new DBManager(myContext,"callhome.db",null,1);
 //        SQLiteDatabase db=mInstance.getReadableDatabase();
+        if(num == null)
+            return null;
         SQLiteDatabase db=mInstance.openDatabase();
         String number=num;
         String result="";

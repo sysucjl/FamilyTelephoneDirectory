@@ -29,6 +29,7 @@ import com.example.sysucjl.familytelephonedirectory.data.SerializableMap;
 import com.example.sysucjl.familytelephonedirectory.tools.ScreenTools;
 import com.example.sysucjl.familytelephonedirectory.utils.FileUtils;
 import com.example.sysucjl.familytelephonedirectory.utils.TypeUtils;
+import com.soundcloud.android.crop.Crop;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -475,6 +476,10 @@ public class EditActivity extends AppCompatActivity{
                 Picasso.with(this).load(mTmpCropImageFile).into(ivAvatar);
                 System.out.println(mTmpCropImageFile.getAbsolutePath());
                 break;
+            case Crop.REQUEST_CROP:
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(mTmpCropImageFile)));
+                Picasso.with(this).load(mTmpCropImageFile).into(ivAvatar);
+                break;
         }
     }
 
@@ -491,13 +496,18 @@ public class EditActivity extends AppCompatActivity{
 
         mTmpCropImageFile = new File(dir.getAbsolutePath()+"/"+getPhotoFileName());
         System.out.println(mTmpCropImageFile.getAbsolutePath());
+
+        Crop.of(data, Uri.fromFile(mTmpCropImageFile))
+                .asSquare()
+                .withMaxSize(ScreenTools.getScreenWidth(this), ScreenTools.getScreenWidth(this))
+                .start(this);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpCropImageFile));
         // outputX,outputY 是剪裁图片的宽高
         intent.putExtra("outputX", ScreenTools.getScreenWidth(this));
         intent.putExtra("outputY", ScreenTools.getScreenWidth(this));
         intent.putExtra("return-data", true);
         intent.putExtra("noFaceDetection", true);
-        startActivityForResult(intent, PHOTO_REQUEST_CUT);
+        //startActivityForResult(intent, PHOTO_REQUEST_CUT);
     }
 
     // 使用系统当前日期加以调整作为照片的名称
