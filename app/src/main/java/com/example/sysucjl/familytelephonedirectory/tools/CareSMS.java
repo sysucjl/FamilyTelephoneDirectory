@@ -37,6 +37,7 @@ public class CareSMS {
         //String re = tem.substring(a, b);
         TEMP2 = Integer.parseInt(re);  //TEMP2 = Integer.parseInt(args[1]);
         //WIND = Integer.parseInt(weatherinfo.wind); //WIND = Integer.parseInt(args[2]);
+
         weather = new String(weatherinfo.weather); //weather = new String(args[3]);
         String liveWeather = weatherinfo.liveWeather;
         //NAME = new String(args[4]);
