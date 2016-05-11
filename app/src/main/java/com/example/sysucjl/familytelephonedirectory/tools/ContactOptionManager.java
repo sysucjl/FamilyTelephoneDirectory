@@ -186,6 +186,9 @@ public class ContactOptionManager {
         String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
         String PHONR_TYPE = ContactsContract.CommonDataKinds.Phone.TYPE;
 
+
+        String PHOTO_URI = ContactsContract.CommonDataKinds.Photo.PHOTO_URI;
+
         String EMAIL = ContactsContract.CommonDataKinds.Email.ADDRESS;
         String EMAIL_TYPE = ContactsContract.CommonDataKinds.Email.TYPE;
 
@@ -234,6 +237,21 @@ public class ContactOptionManager {
             }while (emailCursor.moveToNext());
             item.setmEmails(emails);
         }
+
+        //获取头像
+        Cursor cursor = contentResolver.query(Uri.parse("content://com.android.contacts/contacts"),
+                new String[]{PHOTO_URI}, ContactsContract.Contacts._ID + "=" + id, null, "sort_key");
+        if(cursor != null)
+            if(cursor.getCount() > 0) {
+                System.out.println();
+                cursor.moveToFirst();
+                String photo_uri = cursor.getString(cursor.getColumnIndexOrThrow(PHOTO_URI));
+                if(photo_uri != null){
+                    System.out.println("进入联系人页面后获取头像："+photo_uri);
+                    item.setmAvatar(photo_uri);
+                }
+            }
+
         return item;
     }
 
