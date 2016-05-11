@@ -1,13 +1,14 @@
 package com.example.sysucjl.familytelephonedirectory;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -181,32 +182,87 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void restore(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
-                String fileName = "contacts.vcf";
-                String strFilePath = filePath + "/" + fileName;
-                Looper.prepare();
-                try {
-                    File file = new File(strFilePath);
-                    if(file.exists()) {
-                        String type = "text/x-vcard";
-                        Intent intent = new Intent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setDataAndType(/*uri*/Uri.fromFile(file), type);
-                        startActivity(intent);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath();
+//                String fileName = "contacts.vcf";
+//                String strFilePath = filePath + "/" + fileName;
+//                Looper.prepare();
+//                try {
+//                    File file = new File(strFilePath);
+//                    if(file.exists()) {
+//                        String type = "text/x-vcard";
+//                        Intent intent = new Intent();
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                        intent.setAction(Intent.ACTION_VIEW);
+//                        intent.setDataAndType(/*uri*/Uri.fromFile(file), type);
+//                        startActivity(intent);
+//                    }
+//                    else
+//                        Toast.makeText(MainActivity.this, filePath + "下不存在文件" + fileName + ",请先导出", Toast.LENGTH_LONG).show();
+//                }catch (Exception e) {
+//                    Toast.makeText(MainActivity.this, "导入联系人信息失败!", Toast.LENGTH_SHORT).show();
+//                    e.printStackTrace();
+//                }
+//                Looper.loop();
+//            }
+//        }).start();
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.setType("*/*");
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(i, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    Uri uri = data.getData();
+                    String filePath = getPath(MainActivity.this, uri);
+                    try {
+                        File file = new File(filePath);
+                        if(file.exists()) {
+                            String type = "text/x-vcard";
+                            Intent intent = new Intent();
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setAction(Intent.ACTION_VIEW);
+                            Uri uri1 = Uri.fromFile(file);
+                            intent.setDataAndType(uri1, type);
+                            startActivity(intent);
+                        }
+                        //else
+                        //Toast.makeText(MainActivity.this, filePath + "下不存在文件" + fileName + ",请先导出", Toast.LENGTH_LONG).show();
+                    }catch (Exception e) {
+                        Toast.makeText(MainActivity.this, "导入联系人信息失败!", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
                     }
-                    else
-                        Toast.makeText(MainActivity.this, filePath + "下不存在文件" + fileName + ",请先导出", Toast.LENGTH_LONG).show();
-                }catch (Exception e) {
-                    Toast.makeText(MainActivity.this, "导入联系人信息失败!", Toast.LENGTH_SHORT).show();
-                    e.printStackTrace();
                 }
-                Looper.loop();
+                break;
+            default:
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public   static   String getPath(Context context, Uri uri) {
+        if   ( "content" .equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = { "_data"   };
+            Cursor cursor = null ;
+            try   {
+                cursor = context.getContentResolver().query(uri, projection, null , null , null );
+                int   column_index = cursor.getColumnIndexOrThrow( "_data" );
+                if   (cursor.moveToFirst()) {
+                    return   cursor.getString(column_index);
+                }
+            } catch   (Exception e) {
+                // Eat it
             }
-        }).start();
+        }
+        else   if   ( "file" .equalsIgnoreCase(uri.getScheme())) {
+            return   uri.getPath();
+        }
+        return   null ;
     }
 
     @Override
