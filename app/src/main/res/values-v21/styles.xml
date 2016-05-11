@@ -26,4 +26,8 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
     </style>
+
+    <style name="AppThemeCrop">
+        <item name="android:colorPrimaryDark">@android:color/black</item>
+    </style>
 </resources>

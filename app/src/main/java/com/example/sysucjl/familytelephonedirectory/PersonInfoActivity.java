@@ -1,6 +1,7 @@
 package com.example.sysucjl.familytelephonedirectory;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,12 +23,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -110,6 +114,9 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     private ImageView ivWeatherIcon;
     private LinearLayout llWeatherInfo, llLoadingWeather;
 
+    private EditText edSendTo, edSendContent;
+    private TextView tvCancleSend, tvSendMessage;
+    private LinearLayout llSendMessage;
 
     private TextView weather, tvWedtherTitle;
     private ImageView weather1;
@@ -226,9 +233,6 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
-        setColor();
-        setAvatar();
-
         btnSentMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -256,6 +260,25 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
             }
         });
 
+        edSendTo = (EditText) findViewById(R.id.ed_message_to);
+        edSendContent = (EditText) findViewById(R.id.ed_message_content);
+        tvCancleSend = (TextView) findViewById(R.id.tv_cancle_send);
+        tvSendMessage = (TextView) findViewById(R.id.tv_send_message);
+        llSendMessage = (LinearLayout) findViewById(R.id.ll_send_message);
+
+        tvCancleSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llSendMessage.setVisibility(View.GONE);
+            }
+        });
+
+        tvSendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sentCareSMS(weatherInfo);
+            }
+        });
 
         weather1 = (ImageView)findViewById(R.id.weather1);
         weather2 = (ImageView)findViewById(R.id.weather2);
@@ -277,8 +300,19 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
         btnSentMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isWeatherDone)
-                    sentCareSMS(weatherInfo);
+                if(isWeatherDone) {
+                    if(llSendMessage.getVisibility() == View.GONE) {
+                        llSendMessage.setVisibility(View.VISIBLE);
+                        edSendTo.setText(mPhonesListAdapter.getItem(0));
+                        CareSMS careSMS = new CareSMS();
+                        String messageContent;
+                        messageContent = careSMS.getCareSMS(weatherInfo);
+                        edSendContent.setText(messageContent);
+                    }else{
+                        llSendMessage.setVisibility(View.GONE);
+                    }
+                    //sentCareSMS(weatherInfo);
+                }
                 else
                     Toast.makeText(PersonInfoActivity.this, "天气未加载完毕，请稍后", Toast.LENGTH_SHORT).show();
             }
@@ -515,17 +549,31 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
         tvBlackList.setTextColor(mColor);
         tvDelete.setTextColor(mColor);
         tvEdit.setTextColor(mColor);
+        tvSendMessage.setTextColor(mColor);
     }
 
     private void sentCareSMS(WeatherInfo weatherInfo1){
-        String phonenum = mPhonesListAdapter.getItem(0);
-        CareSMS careSMS = new CareSMS();
-        String messageContent;
-        messageContent = careSMS.getCareSMS(weatherInfo1);
-        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-        sendIntent.setData(Uri.parse("smsto:" + phonenum));
-        sendIntent.putExtra("sms_body", messageContent);
-        startActivity(sendIntent);
+        if(TextUtils.isEmpty(edSendTo.getText().toString())){
+            Toast.makeText(getApplicationContext(), "号码不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(TextUtils.isEmpty(edSendContent.getText().toString())){
+            Toast.makeText(getApplicationContext(), "短信内容不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        SmsManager smsManager = SmsManager.getDefault();
+        PendingIntent pi = PendingIntent.getActivity(PersonInfoActivity.this, 0, new Intent(), 0);
+        smsManager.sendTextMessage(edSendTo.getText().toString(), null, edSendContent.getText().toString(), pi, null);
+        llSendMessage.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), "已发送", Toast.LENGTH_SHORT).show();
+//        String phonenum = mPhonesListAdapter.getItem(0);
+//        CareSMS careSMS = new CareSMS();
+//        String messageContent;
+//        messageContent = careSMS.getCareSMS(weatherInfo1);
+//        Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+//        sendIntent.setData(Uri.parse("smsto:" + phonenum));
+//        sendIntent.putExtra("sms_body", messageContent);
+//        startActivity(sendIntent);
     }
 
     //解决ListView在ScrollView中无法显示多列的情况
@@ -681,6 +729,15 @@ public class PersonInfoActivity extends AppCompatActivity implements View.OnClic
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mContactAvatar = savedInstanceState.getString(PHOTO_URI);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setColor();
+        setAvatar();
+        if(mContactId != null)
+            getContactInfo();
     }
 
     @Override
