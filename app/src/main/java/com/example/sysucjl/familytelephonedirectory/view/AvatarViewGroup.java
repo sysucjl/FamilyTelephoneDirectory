@@ -2,6 +2,7 @@ package com.example.sysucjl.familytelephonedirectory.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.example.sysucjl.familytelephonedirectory.PersonInfoActivity;
 import com.example.sysucjl.familytelephonedirectory.R;
 import com.example.sysucjl.familytelephonedirectory.data.ContactItem;
 import com.example.sysucjl.familytelephonedirectory.data.RecordItem;
+import com.example.sysucjl.familytelephonedirectory.utils.ColorUtils;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,6 +51,7 @@ public class AvatarViewGroup extends FrameLayout{
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.layout_avatar, this, true);
+        setClickable(true);
     }
 
     @Override
@@ -60,15 +63,21 @@ public class AvatarViewGroup extends FrameLayout{
         if(record.getmContactItem() != null){
             setContact(record.getmContactItem(), avatarSize);
         }else{
-            ContactItem contactItem = new ContactItem(record.getNumber());
-            setContact(contactItem, avatarSize);
+            //ContactItem contactItem = new ContactItem(record.getNumber());
+            //setContact(contactItem, avatarSize);
+            civAvatar.setVisibility(GONE);
+            flAvatar.setVisibility(VISIBLE);
+            tvAvatarIcon.setVisibility(GONE);
+            ivAvatarIcon.setVisibility(VISIBLE);
+            rvAvatarBackground.setColor(
+                    Color.parseColor(ColorUtils.getColor(record.getNumber().hashCode())));
         }
     }
 
     public void setContact(final ContactItem contact, int avatarSize){
         if(contact.getmAvatar() != null){
             civAvatar.setVisibility(VISIBLE);
-            flAvatar.setVisibility(GONE);
+            //flAvatar.setVisibility(GONE);
             //System.out.println("头像尺寸:"+ avatarSize);
             Picasso.with(mContext)
                     .load(contact.getmAvatar())
@@ -92,7 +101,7 @@ public class AvatarViewGroup extends FrameLayout{
             }
         }
         if(contact.getmContactId() != null) {
-            setOnClickListener(new OnClickListener() {
+            rvAvatarBackground.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
